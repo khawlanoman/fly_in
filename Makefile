@@ -8,3 +8,8 @@ run:
 
 debug:
 	python3 -m pdb main.py
+
+clean:
+
+fclean:
+	
