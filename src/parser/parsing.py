@@ -11,10 +11,7 @@ class Read_input_file:
             with open(config_file, 'r') as file:
                 lines = file.readlines()
                 print(lines)
-
         except:
             print("error");
-
-
 class Parser:
     pass

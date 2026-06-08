@@ -9,7 +9,5 @@ if len(sys.argv) == 2:
 else:
     print("python3 main.py [config_file]")
 
-
-
 file_parse = parsing.Read_input_file()
 print(f"{file_parse.read_file(config_file)}")
