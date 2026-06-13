@@ -1,8 +1,9 @@
 from src.parser import parsing
 from src.models import drones_data,algo_class
 from src.models import drone_class,simulation
-
+import class_visualisation
 import sys
+import pygame
 
 if len(sys.argv) == 2:
     config_file =sys.argv[1]
@@ -39,3 +40,11 @@ print(all_dornes)
 simula = simulation.Simulation(drone,rp[4],all_dornes,rp[0])
 
 print("turns",simula.run(rp[1],rp[2]))
+
+visual = class_visualisation.Visualisation(rp[1],rp[2])
+s_l= visual.smallests_and_largest()
+print("tuple:",s_l)
+print("width_height", visual.width_height(s_l))
+print("window",visual.window_width_hieght(visual.width_height(s_l)))
+window = visual.window_width_hieght(visual.width_height(s_l))
+visual.run_v(window,visual.width_height(s_l))
