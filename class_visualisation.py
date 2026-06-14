@@ -67,7 +67,7 @@ class Visualisation:
                         if key == value.name2:
                                 value2 = element
                                 
-                print(f"{value.name1} -> {value.name2}: {value1} to {value2}")
+                # print(f"{value.name1} -> {value.name2}: {value1} to {value2}")
                 con_v1_screan_x = ((value1[0] - self.min_x)* scale_x+ self.margin)
                 con_v1_screan_y = ((value1[1] - self.min_y)* scale_y+ self.margin)
 
