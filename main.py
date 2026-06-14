@@ -37,14 +37,17 @@ for i in range(rp[0]):
 print(all_dornes)
 
 
-simula = simulation.Simulation(drone,rp[4],all_dornes,rp[0])
 
-print("turns",simula.run(rp[1],rp[2]))
-
-visual = class_visualisation.Visualisation(rp[1],rp[2])
+visual = class_visualisation.Visualisation(rp[1],rp[2], all_dornes)
 s_l= visual.smallests_and_largest()
 print("tuple:",s_l)
 print("width_height", visual.width_height(s_l))
 print("window",visual.window_width_hieght(visual.width_height(s_l)))
 window = visual.window_width_hieght(visual.width_height(s_l))
-visual.run_v(window,visual.width_height(s_l))
+
+
+
+
+simula = simulation.Simulation(drone,rp[4],all_dornes,rp[0],visual)
+
+print("turns",simula.run(rp[1],rp[2]))

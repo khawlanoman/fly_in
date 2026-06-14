@@ -1,9 +1,10 @@
 import pygame
 
 class Visualisation:
-    def __init__(self,zones,connections) -> None:
+    def __init__(self,zones,connections,drones:list) -> None:
         self.zones = zones
         self.connections = connections
+        self.drones = drones
         self.scale = 300
         self.margin = 200
         self.min_x = 0
@@ -37,9 +38,12 @@ class Visualisation:
         window_hieght = (t_width_height[1] * self.scale + (self.margin * 2))
         return (window_width,window_hieght)
     
-    def run_v(self,window, t_width_height):
+    def run_v(self, turn:int):
+
         dict_zones={}
+
         pygame.init()
+
         screen_info = pygame.display.Info()
         width_screen =  screen_info.current_w
         height_screen = screen_info.current_h
@@ -49,18 +53,25 @@ class Visualisation:
         
         scale_x = (width_screen - self.margin * 2) / (self.max_x - self.min_x)
         scale_y = (height_screen - self.margin * 2) / (self.max_y - self.min_y)
+
         screen = pygame.display.set_mode((width_screen,height_screen))
+
         pygame.display.set_caption("hello fly_in")
 
-        running = True
-        while running:
-            for event in pygame.event.get():
+        drones_image = pygame.image.load("drone.png").convert_alpha()
+
+        drones_image = pygame.transform.scale(drones_image, (30, 30))
+
+        my_text_turn = pygame.font.SysFont("Arial", 30)
+
+        
+        for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return False
         
-            screen.fill((255,255,255)) 
+        screen.fill((255,255,255)) 
 
-            for value in self.connections:
+        for value in self.connections:
                 for key,element in dict_zones.items():
                         if key == value.name1:
                                 value1 = element
@@ -68,14 +79,14 @@ class Visualisation:
                                 value2 = element
                                 
                 # print(f"{value.name1} -> {value.name2}: {value1} to {value2}")
-                con_v1_screan_x = ((value1[0] - self.min_x)* scale_x+ self.margin)
-                con_v1_screan_y = ((value1[1] - self.min_y)* scale_y+ self.margin)
+                con_v1_screan_x = ((value1[0] - self.min_x) * scale_x + self.margin)
+                con_v1_screan_y = ((value1[1] - self.min_y) * scale_y + self.margin)
 
-                con_v2_screan_x = ((value2[0] - self.min_x)* scale_x+ self.margin)
-                con_v2_screan_y = ((value2[1] - self.min_y)* scale_y+ self.margin)
+                con_v2_screan_x = ((value2[0] - self.min_x) * scale_x + self.margin)
+                con_v2_screan_y = ((value2[1] - self.min_y) * scale_y + self.margin)
                 pygame.draw.line(screen, pygame.Color("red"), (con_v1_screan_x,con_v1_screan_y), (con_v2_screan_x,con_v2_screan_y), width=2)
 
-            for key, element in self.zones.items():
+        for key, element in self.zones.items():
                 color = element.metadata.get("color", "white")
                 if color is None or color == None:
                     color = "white"
@@ -85,9 +96,21 @@ class Visualisation:
                 screen_y = ((element.y - self.min_y) * scale_y + self.margin)
                 pygame.draw.circle(screen, pygame.Color(color), (screen_x, screen_y), 50)
             
-          
+        for element in self.drones:
+                 i = 0
+                 for  key,value in dict_zones.items():
+                      i += 100
+                      if element.current_zone == key:
+                            screen_x = ((value[0] - self.min_x) * scale_x + self.margin)
+                            screen_y = ((value[1] - self.min_y) * scale_y + self.margin)
+                            rotate_image = pygame.transform.rotate(drones_image,i)
+                            # pygame.draw.circle(screen, pygame.Color("black"), (screen_x, screen_y), 10)
+                            screen.blit(rotate_image,(screen_x,screen_y))
+        text_turns = my_text_turn.render(f"TURNS: {turn}", True, (255, 255, 255))
+        screen.blit(text_turns,(0, 4))
 
-            pygame.display.update()
+        pygame.display.flip()
+        pygame.time.delay(1000)
         # for key, element in self.zones.items():
         #     screen_x = ((element.x - self.min_x) * self.scale + self.margin )
         #     screen_y = ((element.y - self.min_y) * self.scale + self.margin )

@@ -1,8 +1,9 @@
 class Simulation:
-    def __init__(self,drone,end_hub,all_dornes:list, nb_drones:int) -> None:
+    def __init__(self,drone,end_hub,all_dornes:list, nb_drones:int, visual) -> None:
         self.end = end_hub
         self.all_drones = all_dornes
         self.nb_drones =nb_drones
+        self.visual = visual
 
 
     def all_drones_at_goal(self):
@@ -42,7 +43,7 @@ class Simulation:
                         max_drones = zone_t.metadata.get("max_drones", 0) 
                         max_link = connection_t.metadata.get("max_link_capacity", 0) 
 
-                        if current_count < max_drones and connection_count < max_link:
+                        if current_count < max_drones and connection_count < int(max_link):
                             drone.path_index +=1
                             zone_used[next_zone]= current_count + 1
                             connections_used[connection_key]= connection_count + 1
@@ -61,5 +62,6 @@ class Simulation:
                         drone.state = "holding"
                         drone.path_index +=1
            
+            self.visual.run_v(turn)
             # print(zone_used)
         return turn
