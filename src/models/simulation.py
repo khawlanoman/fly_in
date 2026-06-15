@@ -64,7 +64,9 @@ class Simulation:
                             value_turns.append(f"D{drone.id}-{next_zone}")
                             turn_dict[turn] = value_turns
                             # print(f"Turn {turn}: Drone {drone.id} state={drone.state}, current={drone.current_zone}, path_index={drone.path_index}")
-                        
+                        # elif current_count >= max_drones:
+
+                            
                 elif drone.state == "in_flight":
                     drone.flight_turns_re -= 1
 
