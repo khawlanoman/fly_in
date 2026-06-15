@@ -1,3 +1,4 @@
+import pygame
 class Simulation:
     def __init__(self,drone,end_hub,all_dornes:list, nb_drones:int, visual) -> None:
         self.end = end_hub
@@ -61,7 +62,12 @@ class Simulation:
                         # print(f"Turn {turn}: Drone {drone.id} state={drone.state}, current={drone.current_zone}, path_index={drone.path_index}")
                         drone.state = "holding"
                         drone.path_index +=1
-           
+            # clock = pygame.time.Clock()
             self.visual.run_v(turn)
+            # pygame.display.update()
+            pygame.time.delay(500)
+            # pygame.display.flip()
+            # clock.tick(1)
+            # pygame.time.delay(1000)
             # print(zone_used)
         return turn

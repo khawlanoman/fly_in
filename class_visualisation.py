@@ -40,7 +40,7 @@ class Visualisation:
     
     def run_v(self, turn:int):
 
-        dict_zones={}
+        dict_zones = {}
 
         pygame.init()
 
@@ -61,56 +61,70 @@ class Visualisation:
         drones_image = pygame.image.load("drone.png").convert_alpha()
 
         drones_image = pygame.transform.scale(drones_image, (30, 30))
+        drone_image_width = drones_image.get_width()
+        drone_image_height = drones_image.get_height()
 
         my_text_turn = pygame.font.SysFont("Arial", 30)
 
-        
+        my_text_zone = pygame.font.SysFont("Arial", 10)
+      
+        # running = True
+
+        # while running:
         for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    return False
-        
-        screen.fill((255,255,255)) 
+                    if event.type == pygame.QUIT:
+                        return False
+            
+        screen.fill((0,0,0)) 
+
+        text_turns = my_text_turn.render(f"TURNS: {turn}", True, (0, 0, 0))
+        screen.blit(text_turns,(4, 4))
 
         for value in self.connections:
-                for key,element in dict_zones.items():
-                        if key == value.name1:
-                                value1 = element
-                        if key == value.name2:
-                                value2 = element
-                                
-                # print(f"{value.name1} -> {value.name2}: {value1} to {value2}")
-                con_v1_screan_x = ((value1[0] - self.min_x) * scale_x + self.margin)
-                con_v1_screan_y = ((value1[1] - self.min_y) * scale_y + self.margin)
+                    for key,element in dict_zones.items():
+                            if key == value.name1:
+                                    value1 = element
+                            if key == value.name2:
+                                    value2 = element
+                                    
+                    # print(f"{value.name1} -> {value.name2}: {value1} to {value2}")
+                    con_v1_screan_x = ((value1[0] - self.min_x) * scale_x + self.margin)
+                    con_v1_screan_y = ((value1[1] - self.min_y) * scale_y + self.margin)
 
-                con_v2_screan_x = ((value2[0] - self.min_x) * scale_x + self.margin)
-                con_v2_screan_y = ((value2[1] - self.min_y) * scale_y + self.margin)
-                pygame.draw.line(screen, pygame.Color("red"), (con_v1_screan_x,con_v1_screan_y), (con_v2_screan_x,con_v2_screan_y), width=2)
+                    con_v2_screan_x = ((value2[0] - self.min_x) * scale_x + self.margin)
+                    con_v2_screan_y = ((value2[1] - self.min_y) * scale_y + self.margin)
+                    pygame.draw.line(screen, pygame.Color("red"), (con_v1_screan_x,con_v1_screan_y), (con_v2_screan_x,con_v2_screan_y), width=2)
 
+        
         for key, element in self.zones.items():
-                color = element.metadata.get("color", "white")
-                if color is None or color == None:
-                    color = "white"
+                    color = element.metadata.get("color", "white")
+                    if color is None or color == None:
+                        color = "white"
+                    
+                    screen_x = ((element.x - self.min_x) * scale_x + self.margin)
+                    screen_y = ((element.y - self.min_y) * scale_y + self.margin)
+                    pygame.draw.circle(screen, pygame.Color(color), (screen_x, screen_y), 50)
+                    text_zone = my_text_zone.render(f"{element.name}", True, (255, 255, 255))
+                    my_text_zone_x = text_zone.get_width()
+                    my_text_zone_y = text_zone.get_height()
+                    screen.blit(text_zone,(screen_x - (my_text_zone_x // 2), screen_y - (my_text_zone_y // 2)))
+                   
                 
-                
-                screen_x = ((element.x - self.min_x) * scale_x + self.margin)
-                screen_y = ((element.y - self.min_y) * scale_y + self.margin)
-                pygame.draw.circle(screen, pygame.Color(color), (screen_x, screen_y), 50)
-            
         for element in self.drones:
-                 i = 0
-                 for  key,value in dict_zones.items():
-                      i += 100
-                      if element.current_zone == key:
-                            screen_x = ((value[0] - self.min_x) * scale_x + self.margin)
-                            screen_y = ((value[1] - self.min_y) * scale_y + self.margin)
-                            rotate_image = pygame.transform.rotate(drones_image,i)
-                            # pygame.draw.circle(screen, pygame.Color("black"), (screen_x, screen_y), 10)
-                            screen.blit(rotate_image,(screen_x,screen_y))
-        text_turns = my_text_turn.render(f"TURNS: {turn}", True, (255, 255, 255))
-        screen.blit(text_turns,(0, 4))
+                    i = 0
+                    for  key,value in dict_zones.items():
+                        i += 100
+                        if element.current_zone == key:
+                                screen_x = ((value[0] - self.min_x) * scale_x + self.margin)
+                                screen_y = ((value[1] - self.min_y) * scale_y + self.margin)
+                                rotate_image = pygame.transform.rotate(drones_image,i)
+                                # pygame.draw.circle(screen, pygame.Color("black"), (screen_x, screen_y), 10)
+                                screen.blit(rotate_image,(screen_x - (drone_image_width //2),screen_y - (drone_image_height // 2)))
+            
 
         pygame.display.flip()
-        pygame.time.delay(1000)
+        # pygame.time.delay(1000)
+            # pygame.display.update()
         # for key, element in self.zones.items():
         #     screen_x = ((element.x - self.min_x) * self.scale + self.margin )
         #     screen_y = ((element.y - self.min_y) * self.scale + self.margin )
