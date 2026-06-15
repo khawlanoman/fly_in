@@ -50,4 +50,6 @@ window = visual.window_width_hieght(visual.width_height(s_l))
 
 simula = simulation.Simulation(drone,rp[4],all_dornes,rp[0],visual)
 
-print("turns",simula.run(rp[1],rp[2]))
+simula.run(rp[1],rp[2])
+
+# visual.run_v(simula.run(rp[1],rp[2]))

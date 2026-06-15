@@ -16,6 +16,14 @@ class Simulation:
 
     def run(self,zone, connections)->dict:
         turn = 0;
+        # hh
+        pygame.init()
+        screen_info = pygame.display.Info()
+        width_screen =  screen_info.current_w
+        height_screen = screen_info.current_h
+        screen = pygame.display.set_mode((width_screen,height_screen))
+
+        #  #
         connection_dict = {}
         for conn in connections:
             key = tuple(sorted([conn.name1, conn.name2]))
@@ -24,6 +32,9 @@ class Simulation:
         while self.all_drones_at_goal():
             zone_used = {}
             connections_used = {}
+            turn_dict = {}
+            value_turns = []
+            self.visual.run_v(turn, screen)
             turn += 1
             for drone in self.all_drones:
                 if drone.current_zone == self.end:
@@ -49,7 +60,9 @@ class Simulation:
                             zone_used[next_zone]= current_count + 1
                             connections_used[connection_key]= connection_count + 1
                             drone.move_to_zone(next_zone)
-                            print(f" turn {turn}:D{drone.id}-{next_zone}")
+                            # print(f" turn {turn}:D{drone.id}-{next_zone}")
+                            value_turns.append(f"D{drone.id}-{next_zone}")
+                            turn_dict[turn] = value_turns
                             # print(f"Turn {turn}: Drone {drone.id} state={drone.state}, current={drone.current_zone}, path_index={drone.path_index}")
                         
                 elif drone.state == "in_flight":
@@ -58,16 +71,12 @@ class Simulation:
                     if drone.flight_turns_re == 0:
                         next_z = drone.path[drone.path_index]
                         drone.current_zone = next_z
-                        print(f" turn {turn}:D{drone.id}-{next_z}")
+                        # print(f" turn {turn}:D{drone.id}-{next_z}")
+                        value_turns.append(f"D{drone.id}-{next_z}")
+                        turn_dict[turn] = value_turns
                         # print(f"Turn {turn}: Drone {drone.id} state={drone.state}, current={drone.current_zone}, path_index={drone.path_index}")
                         drone.state = "holding"
                         drone.path_index +=1
-            # clock = pygame.time.Clock()
-            self.visual.run_v(turn)
-            # pygame.display.update()
-            pygame.time.delay(500)
-            # pygame.display.flip()
-            # clock.tick(1)
-            # pygame.time.delay(1000)
-            # print(zone_used)
+            
+            print(f"turn:{turn_dict}")
         return turn
