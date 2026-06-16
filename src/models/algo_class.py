@@ -1,38 +1,45 @@
 class Algo_dijkstra:
     def __init__(self) -> None:
-        self. distance= {}
-        self.unvisited = []
-        self.prev = {}
+        pass
 
     def initialization_dicts(self, t_list:list)->list:
         zones = t_list[1]
-
+        distance = {}
+        unvisited = []
+        prev = {}
         for k in zones.keys():
             if (k == "start"):
-                self.distance[k] = 0
+                distance[k] = 0
             else:
-                self.distance[k] = float('inf')
-            self.unvisited.append(k)
-            self.prev[k] = None
+                distance[k] = float('inf')
+            unvisited.append(k)
+            prev[k] = None
         
-        return [self.distance,self.unvisited,self.prev]
+        return [distance,unvisited,prev]
     
-    def alog_start(self,t_list:list, dict_neighbors:dict,zones:dict,end_hub:str)->list:
+    def alog_start(self,t_list:list, dict_neighbors:dict,zones:dict,end_hub:str,)->list:
         distance_al = t_list[0]
         unvisited_al = t_list[1]
         prev_al = t_list[2]
-
+      
+        path = []
+       
+        # print("prev_al",prev_al)
+        # print("ID of dict_neighbors before while:", id(dict_neighbors))
         """find small zone ("""
         while unvisited_al:
-            small = None
+            # print("ID of dict_neighbors after while:", 
+            
             small_zone_dist = None
+            small = float('inf')
             for k in unvisited_al:
-                if distance_al[k] < float('inf'):
-                    small_zone_dist = k
+                if distance_al[k] < small:
                     small = distance_al[k]
-            # print("small: ",small_zone_dist)
+                    small_zone_dist = k
 
-
+            if small_zone_dist is None:
+                break
+          
             """remove  zone from unvisited"""
             unvisited_al.remove(small_zone_dist)
             # print("\nhinaaa",unvisited_al)
@@ -52,6 +59,8 @@ class Algo_dijkstra:
             
 
             for k,v in neighbors_cost.items():
+                if k not in unvisited_al:
+                        continue
                 for element in distance_al:
                     if k == element:
                         calculate_dist = small + v
@@ -59,19 +68,18 @@ class Algo_dijkstra:
                             distance_al[k] = calculate_dist
                             prev_al[element] = small_zone_dist
                             
-            #print("distances:",distance_al)
-            # print("prev:",prev_al)
-                            
-            path = []
-            current = end_hub
+         
+        current = end_hub
 
-            while current is not None:
-                path.append(current)
-                current = prev_al[current]
-            path.reverse()
+        while current is not None:
+            path.append(current)
+            current = prev_al[current]
+        path.reverse()
 
+       
+        # print("Path f", path)
         return path
-        # print("this is my path",path)
+      
 
 
                 

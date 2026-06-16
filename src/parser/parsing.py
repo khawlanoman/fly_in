@@ -1,5 +1,6 @@
 from ..models.zone_class import Zone
 from ..models.connection_class import Connection
+import sys
 class Pars_exception(Exception):
     pass
 class Read_input_file:
@@ -10,7 +11,7 @@ class Read_input_file:
         self.star_hub= None
         self.end_hub = None
 
-    def read_file(self,config_file: str)->dict:
+    def read_file(self,config_file: str)->list:
         
         try:
             with open(config_file, 'r') as file:
@@ -34,14 +35,14 @@ class Read_input_file:
                     try:
                         value = int(value)
                     except:
-                         raise Pars_exception("number of drones  must be a number")
-                    self.nb_drones = value
+                        print(f"Error: {e}")
+                        sys.exit(1)
+                    self.nb_drones = int(value)
                 if key in ("start_hub", "hub", "end_hub"):
                     part_value = value.strip().split(" ",3)
                     if len(part_value) == 3:
                         name,x,y = part_value
                         meta = None
-
 
                     elif len(part_value) == 4:
                         name,x,y,meta = part_value
@@ -52,8 +53,8 @@ class Read_input_file:
                     try:
                         x = int(x)
                         y= int(y)
-                        if x < 0 or y < 0:
-                            raise Pars_exception("x or y is not a valid integer")
+                        # if x < 0 or y < 0:
+                        #     raise Pars_exception("x or y is not a valid integer")
                     except  ValueError:
                         raise Pars_exception("x or y is not a valid integer")
         
