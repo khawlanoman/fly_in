@@ -9,9 +9,13 @@ class Dict_neighbors:
     
         for element in dict_zones.keys():
             neighbors= []
+            
             if element == forbidden_zone:
+                    # print("forbidden-zone:",forbidden_zone)
                     continue
             for ele in dict_connections:
+                if ele.name1 == forbidden_zone or ele.name2 == forbidden_zone:
+                        continue
                 if element == ele.name1:
                     neighbor = ele.name2
                     # if zones_capacitys.get(neighbor,0) < dict_zones[neighbor].metadata.get("max_drones",1):
@@ -22,12 +26,8 @@ class Dict_neighbors:
                     neighbor = ele.name1
                     # if zones_capacitys.get(neighbor,0) < dict_zones[neighbor].metadata.get("max_drones",1):
                     neighbors.append(neighbor)
-                    # else:
-                    #     continue
-            # print(f"Checking zone {element}, capacity={zones_capacitys.get(neighbor,0)}, max={dict_zones[neighbor].metadata.get('max_drones',1)}")
-            # print(f"Checking zone {element}, capacity={zones_capacitys.get(element,0)}, max={dict_zones[element].metadata.get('max_drones',1)}")
+              
             dict_neighbors[element] = neighbors
-            # if zones_capacitys.get(neighbor,0) >= dict_zones[neighbor].metadata.get("max_drones",1):
-            #     zones_capacitys[element] = zones_capacitys.get(element, 0)
+        # print("giran:",dict_neighbors)
         return dict_neighbors
        

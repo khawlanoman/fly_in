@@ -18,12 +18,22 @@ class Algo_dijkstra:
         return [distance,unvisited,prev]
     
     def alog_start(self,t_list:list, dict_neighbors:dict,zones:dict,end_hub:str,)->list:
-        distance_al = t_list[0]
-        unvisited_al = t_list[1]
-        prev_al = t_list[2]
-      
+        
+        zones = t_list[1]
+        distance_al = {}
+        unvisited_al = []
+        prev_al = {}
+        for k in zones.keys():
+            if (k == "start"):
+                distance_al[k] = 0
+            else:
+                distance_al[k] = float('inf')
+            unvisited_al.append(k)
+            prev_al[k] = None
+        
         path = []
        
+
         # print("prev_al",prev_al)
         # print("ID of dict_neighbors before while:", id(dict_neighbors))
         """find small zone ("""
