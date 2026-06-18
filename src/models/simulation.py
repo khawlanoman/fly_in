@@ -46,11 +46,12 @@ class Simulation:
             self.visual.run_v(turn, screen)
 
             p_moves = []
+            # print("self.all_drones:", [d.id for d in self.all_drones])
             for drone in self.all_drones:
 
                 if drone.current_zone == self.end:
                     continue 
-
+                
                 if drone.state == "holding":
                         next_zone = drone.path[drone.path_index]
                         connection_key = tuple(sorted([drone.current_zone, next_zone]))
@@ -79,7 +80,7 @@ class Simulation:
                                 # print("new_path", new_path)
                                 if new_path and len(new_path) > 1:
                                     drone.path = new_path
-                                    drone.path_index = 1
+                                    drone.path_index = drone.path.index(drone.current_zone)+ 1
                                     # print("path_index:",drone.path_index)
                                     drone.state = "holding"
                                     drone.next_zone = None
@@ -99,14 +100,16 @@ class Simulation:
                             continue
 
                         if current_count >= max_drones or connection_count >= int(max_link):
+                                
                                 forbidden_zone = next_zone
                                 dict_neighb = dict_neighbors.found_neighbors(t_list,forbidden_zone)
                                 new_path = algo.alog_start(t_list,dict_neighb,zone,end)
                                 # print("new_path", new_path)
+                                # if drone.id == 1:
+                                #      print("hna ", new_path)
                                 if new_path and len(new_path) > 1:
                                     drone.path = new_path
-                                    drone.path_index = 1
-                                    # print("path_index:",drone.path_index)
+                                    drone.path_index = drone.path.index(drone.current_zone) + 1
                                     drone.state = "holding"
                                     drone.next_zone = None
                                     
@@ -119,7 +122,7 @@ class Simulation:
                            
                         zone_used[next_zone]= current_count + 1
                         connections_used[connection_key]= connection_count + 1
-                            
+                        # print(drone.id, drone.state, drone.current_zone)   
                          
                         value_turns.append(f"D{drone.id}-{next_zone}")
                          
@@ -149,8 +152,10 @@ class Simulation:
                         # print(f"Turn {turn}: Drone {drone.id} state={drone.state}, current={drone.current_zone}, path_index={drone.path_index}")
                     drone.state = "holding"
                     drone.next_z= None
-
-            turn_dict[turn] = value_turns     
+                p_moves.append(drone.id)
+            # print("drones:",p_moves)
+            turn_dict[turn] = value_turns    
+            # print(id(self.all_drones), [d.id for d in self.all_drones]) 
             print(f"turn:{turn_dict}")
             turn += 1
 
