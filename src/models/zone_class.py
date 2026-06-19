@@ -9,7 +9,6 @@ class Zone:
         if metadata:
             self.metadata.update(metadata)
 
-
     def movement_cost(self)->int:
         if self.metadata["zone"] == "normal" or self.metadata["zone"] == "priority":
                 return 1;
