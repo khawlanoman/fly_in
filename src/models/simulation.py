@@ -30,7 +30,7 @@ class Simulation:
         for conn in connections:
             key = tuple(sorted([conn.name1, conn.name2]))
             connection_dict[key] = conn
-
+        
         while self.all_drones_at_goal():
             zone_used = {}
             connections_used = {}
@@ -45,7 +45,7 @@ class Simulation:
               
             self.visual.run_v(turn, screen)
 
-            p_moves = []
+           
             # print("self.all_drones:", [d.id for d in self.all_drones])
             for drone in self.all_drones:
 
@@ -84,9 +84,8 @@ class Simulation:
                                     # print("path_index:",drone.path_index)
                                     drone.state = "holding"
                                     drone.next_zone = None
-                                    
-                                    
-                                # print("makynch path")
+                                  
+                                #print("makynch path")
                                 continue
                                 
                             connections_used[connection_key] = connection_count + 1
@@ -97,7 +96,8 @@ class Simulation:
                             # drone.path_index +=1
                             # 
                             self.visual.run_v(turn, screen)
-                            value_turns.append(f"D{drone.id} go to connection ({next_zone})")
+
+                            value_turns.append(f"D{drone.id} go_to_connection ({next_zone})")
                             continue
 
                         if current_count >= max_drones or connection_count >= int(max_link):
@@ -117,7 +117,6 @@ class Simulation:
                                 # print("makynch path")
                                 continue
                            
-
                         drone.move_to_zone(next_zone)
                         drone.path_index +=1
                            
@@ -135,7 +134,7 @@ class Simulation:
                     zone_t = zone.get(next_z)
 
                     if drone.flight_turns_re  > 0:
-                        value_turns.append(f"D{drone.id} waiting {next_z}")
+                        # value_turns.append(f"D{drone.id} waiting {next_z}")
                         continue
                 
                     current_count = zone_used.get(next_z, 0)
@@ -154,10 +153,12 @@ class Simulation:
                         # print(f"Turn {turn}: Drone {drone.id} state={drone.state}, current={drone.current_zone}, path_index={drone.path_index}")
                     drone.state = "holding"
                     drone.next_z= None
-                p_moves.append(drone.id)
+                # p_moves.append(drone.id)
             # print("drones:",p_moves)
+                
             turn_dict[turn] = value_turns    
             # print(id(self.all_drones), [d.id for d in self.all_drones]) 
+            
             print(f"turn:{turn_dict}")
             turn += 1
 
