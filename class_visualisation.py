@@ -5,8 +5,8 @@ class Visualisation:
         self.zones = zones
         self.connections = connections
         self.drones = drones
-        self.scale = 30 #100
-        self.margin = 200 #600
+        self.scale = 100 #100
+        self.margin = 600 #600
         self.min_x = 0
         self.min_y = 0
         self.max_x = 0
@@ -76,7 +76,7 @@ class Visualisation:
              if event.type == pygame.QUIT:
                  return False
          
-        screen.fill((0,0,0)) 
+        screen.fill((50,50,50)) 
         text_turns = my_text_turn.render(f"TURNS: {turn}", True, (0, 255, 0))
         screen.blit(text_turns,(4, 4))
         for value in self.connections:
@@ -100,7 +100,7 @@ class Visualisation:
                     
                     screen_x = ((element.x - self.min_x) * scale_x + self.margin)
                     screen_y = ((element.y - self.min_y) * scale_y + self.margin)
-                    pygame.draw.circle(screen, pygame.Color(color), (screen_x, screen_y), 50) #70
+                    pygame.draw.circle(screen, pygame.Color(color), (screen_x, screen_y), 70) #70
                     text_zone = my_text_zone.render(f"{element.name}", True, (255, 255, 255))
                     my_text_zone_x = text_zone.get_width()
                     my_text_zone_y = text_zone.get_height()

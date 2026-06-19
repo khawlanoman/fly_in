@@ -42,7 +42,7 @@ pygame.display.set_caption("Point to Point Animation")
 clock = pygame.time.Clock()
 
 # Colors
-BACKGROUND = (30, 30, 30)
+BACKGROUND = (90, 90, 90)
 CIRCLE_COLOR = (255, 87, 34)
 TARGET_COLOR = (76, 175, 80)
 
@@ -57,12 +57,7 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        # Set a new target point when clicking anywhere on the screen
-        # elif event.type == pygame.MOUSEBUTTONDOWN:
-        #     target_pos = pygame.math.Vector2(event.pos)
-
-    # 2. Update Position (The Animation Logic)
-    # Calculate vector pointing from current position to target position
+     
     direction = target_pos - current_pos
     distance = direction.length()
 

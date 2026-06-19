@@ -96,6 +96,7 @@ class Simulation:
                             drone.next_zone = next_zone
                             # drone.path_index +=1
                             # 
+                            self.visual.run_v(turn, screen)
                             value_turns.append(f"D{drone.id} go to connection ({next_zone})")
                             continue
 
@@ -147,6 +148,7 @@ class Simulation:
                     zone_used[next_z]= current_count + 1
                     
                         # print(f" turn {turn}:D{drone.id}-{next_z}")
+                    self.visual.run_v(turn, screen)
                     value_turns.append(f"D{drone.id}-{next_z}")
                     
                         # print(f"Turn {turn}: Drone {drone.id} state={drone.state}, current={drone.current_zone}, path_index={drone.path_index}")

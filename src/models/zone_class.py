@@ -14,3 +14,5 @@ class Zone:
                 return 1;
         elif self.metadata["zone"] == "restricted":
                 return 2;
+        elif self.metadata["zone"] == "blocked":
+                return 0;

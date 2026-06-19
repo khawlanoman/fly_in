@@ -2,20 +2,20 @@ class Algo_dijkstra:
     def __init__(self) -> None:
         pass
 
-    def initialization_dicts(self, t_list:list)->list:
-        zones = t_list[1]
-        distance = {}
-        unvisited = []
-        prev = {}
-        for k in zones.keys():
-            if (k == "start"):
-                distance[k] = 0
-            else:
-                distance[k] = float('inf')
-            unvisited.append(k)
-            prev[k] = None
+    # def initialization_dicts(self, t_list:list)->list:
+    #     zones = t_list[1]
+    #     distance = {}
+    #     unvisited = []
+    #     prev = {}
+    #     for k in zones.keys():
+    #         if (k == "start"):
+    #             distance[k] = 0
+    #         else:
+    #             distance[k] = float('inf')
+    #         unvisited.append(k)
+    #         prev[k] = None
         
-        return [distance,unvisited,prev]
+    #     return [distance,unvisited,prev]
     
     def alog_start(self,t_list:list, dict_neighbors:dict,zones:dict,end_hub:str,)->list:
         
@@ -56,12 +56,14 @@ class Algo_dijkstra:
 
             """neighbors" of small zone"""
             for key, value in dict_neighbors.items():
+                # print("neighbor",value)
                 if key == small_zone_dist:
                     neighbors = value
             
             # print(neighbors)
             neighbors_cost = {}
             for element in neighbors:
+                
                 for ele in zones:
                     if element == ele:
                         neighbors_cost[element] = zones[ele].movement_cost()
