@@ -5,8 +5,8 @@ class Visualisation:
         self.zones = zones
         self.connections = connections
         self.drones = drones
-        self.scale = 100 #100
-        self.margin = 600 #600
+        self.scale = 50 #100
+        self.margin = 200 #600
         self.min_x = 0
         self.min_y = 0
         self.max_x = 0
@@ -70,12 +70,11 @@ class Visualisation:
       
         clock = pygame.time.Clock()
         # running = True
-
         # while running:
         for event in pygame.event.get():
              if event.type == pygame.QUIT:
                  return False
-         
+        
         screen.fill((50,50,50)) 
         text_turns = my_text_turn.render(f"TURNS: {turn}", True, (0, 255, 0))
         screen.blit(text_turns,(4, 4))
@@ -92,7 +91,7 @@ class Visualisation:
                     con_v2_screan_x = ((value2[0] - self.min_x) * scale_x + self.margin)
                     con_v2_screan_y = ((value2[1] - self.min_y) * scale_y + self.margin)
                     pygame.draw.line(screen, pygame.Color("red"), (con_v1_screan_x,con_v1_screan_y), (con_v2_screan_x,con_v2_screan_y), width=2)
-        
+    
         for key, element in self.zones.items():
                     color = element.metadata.get("color", "white")
                     if color is None or color == None:
@@ -100,12 +99,12 @@ class Visualisation:
                     
                     screen_x = ((element.x - self.min_x) * scale_x + self.margin)
                     screen_y = ((element.y - self.min_y) * scale_y + self.margin)
-                    pygame.draw.circle(screen, pygame.Color(color), (screen_x, screen_y), 70) #70
+                    pygame.draw.circle(screen, pygame.Color(color), (screen_x, screen_y), 50) #70
                     text_zone = my_text_zone.render(f"{element.name}", True, (255, 255, 255))
                     my_text_zone_x = text_zone.get_width()
                     my_text_zone_y = text_zone.get_height()
                     screen.blit(text_zone,(screen_x - (my_text_zone_x // 2), screen_y - (my_text_zone_y // 2)))
-                
+                         
                 
         for element in self.drones:
                     i = 0

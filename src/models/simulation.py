@@ -37,129 +37,141 @@ class Simulation:
             turn_dict = {}
             value_turns = []
 
-            # 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    return {}
+            
+            # for event in pygame.event.get():
+            #     if event.type == pygame.QUIT:
+            #         pygame.quit()
+            #         return {}
               
-            self.visual.run_v(turn, screen)
+            # self.visual.run_v(turn, screen)
 
-           
             # print("self.all_drones:", [d.id for d in self.all_drones])
+            
             for drone in self.all_drones:
 
-                if drone.current_zone == self.end:
-                    continue 
-                
-                if drone.state == "holding":
-                        next_zone = drone.path[drone.path_index]
-                        connection_key = tuple(sorted([drone.current_zone, next_zone]))
-
-                        current_count = zone_used.get(next_zone, 0)
-
-                        connection_count = connections_used.get(connection_key, 0)
-                        connection_t = connection_dict.get(connection_key)
-
-                        if connection_t is None:
-                            return (f"No connection between {drone.current_zone} and {next_zone}")
-                        
-                        zone_t = zone.get(next_zone)
-
-                        max_drones = zone_t.metadata.get("max_drones", 1) 
-                        max_link = connection_t.metadata.get("max_link_capacity", 1) 
-
-                        if zone_t.metadata.get("zone") == "restricted":
+                    if drone.current_zone == self.end:
+                        continue 
+                    # print(" 9bl drone",drone.id)  
+                    if drone.state == "holding":
                             
-                            if connection_count >= int(max_link):
-                                
-                                forbidden_zone = next_zone
-                                dict_neighb = dict_neighbors.found_neighbors(t_list,forbidden_zone)
-                                # print("path:",drone.path)
-                                new_path = algo.alog_start(t_list,dict_neighb,zone,end)
-                                # print("new_path", new_path)
-                                if new_path and len(new_path) > 1:
-                                    drone.path = new_path
-                                    drone.path_index = drone.path.index(drone.current_zone)+ 1
-                                    # print("path_index:",drone.path_index)
-                                    drone.state = "holding"
-                                    drone.next_zone = None
+                            next_zone = drone.path[drone.path_index]
+                            connection_key = tuple(sorted([drone.current_zone, next_zone]))
+
+                            current_count = zone_used.get(next_zone, 0)
+
+                            connection_count = connections_used.get(connection_key, 0)
+                            connection_t = connection_dict.get(connection_key)
+
+                            if connection_t is None:
+                                return (f"No connection between {drone.current_zone} and {next_zone}")
+                            
+                            zone_t = zone.get(next_zone)
+
+                            max_drones = zone_t.metadata.get("max_drones", 1) 
+                            max_link = connection_t.metadata.get("max_link_capacity", 1) 
+
+                
+                            if current_count >= max_drones or connection_count >= int(max_link):
+                                   
+                                    # print(" in drone",drone.id)    
+                                   
+                                    forbidden_zone = next_zone
+                                    dict_neighb = dict_neighbors.found_neighbors(t_list,forbidden_zone)
+                                    new_path = algo.alog_start(t_list,dict_neighb,zone,end)
                                   
-                                #print("makynch path")
-                                continue
-                                
-                            connections_used[connection_key] = connection_count + 1
-                            
-                            drone.state = "in_flight"
-                            drone.flight_turns_re = 2
-                            drone.next_zone = next_zone
-                            # drone.path_index +=1
-                            # 
-                            self.visual.run_v(turn, screen)
+                                    if new_path and len(new_path) > 1:
+                                        drone.path = new_path
+                                        drone.path_index = drone.path.index(drone.current_zone) + 1
+                                        drone.state = "holding"
+                                        drone.next_zone = None
+                                        
+                                        next_zone = drone.path[drone.path_index]
+                                        connection_key = tuple(sorted([drone.current_zone, next_zone]))
+                                        current_count = zone_used.get(next_zone, 0) +1
+                                        connection_count = connections_used.get(connection_key, 0)
+                                        connection_t = connection_dict.get(connection_key)
+                                        zone_t = zone.get(next_zone)
 
-                            value_turns.append(f"D{drone.id} go_to_connection ({next_zone})")
-                            continue
-
-                        if current_count >= max_drones or connection_count >= int(max_link):
-                                
-                                forbidden_zone = next_zone
-                                dict_neighb = dict_neighbors.found_neighbors(t_list,forbidden_zone)
-                                new_path = algo.alog_start(t_list,dict_neighb,zone,end)
-                                # print("new_path", new_path)
-                                # if drone.id == 1:
-                                #      print("hna ", new_path)
-                                if new_path and len(new_path) > 1:
-                                    drone.path = new_path
-                                    drone.path_index = drone.path.index(drone.current_zone) + 1
-                                    drone.state = "holding"
-                                    drone.next_zone = None
+                                    else:
+                                        continue
+                            if zone_t.metadata.get("zone") == "restricted":
+                                 
+                                if connection_count >= int(max_link):
                                     
-                                # print("makynch path")
+                                    forbidden_zone = next_zone
+                                    dict_neighb = dict_neighbors.found_neighbors(t_list,forbidden_zone)
+                                    # print("path:",drone.path)
+                                    new_path = algo.alog_start(t_list,dict_neighb,zone,end)
+                                    # print("new_path", new_path)
+                                    if new_path and len(new_path) > 1:
+                                        drone.path = new_path
+                                        drone.path_index = drone.path.index(drone.current_zone)+ 1
+                                        # print("path_index:",drone.path_index)
+                                        drone.state = "holding"
+                                        drone.next_zone = None
+                                        
+                                        # next_zone = drone.path[drone.path_index]
+                                        # connection_key = tuple(sorted([drone.current_zone, next_zone]))
+                                        # current_count = zone_used.get(next_zone, 0) + 1
+                                        # connection_count = connections_used.get(connection_key, 0)
+                                        # connection_t = connection_dict.get(connection_key)
+                                        # zone_t = zone.get(next_zone)
+                                    else:
+                                      continue
+                                    
+                                connections_used[connection_key] = connection_count + 1
+                                
+                                drone.state = "in_flight"
+                                drone.flight_turns_re = 2
+                                drone.next_zone = next_zone
+                               
+                                value_turns.append(f"D{drone.id} go_to_connection ({next_zone})")
                                 continue
-                           
-                        drone.move_to_zone(next_zone)
-                        drone.path_index +=1
-                           
-                        zone_used[next_zone]= current_count + 1
-                        connections_used[connection_key]= connection_count + 1
-                        # print(drone.id, drone.state, drone.current_zone)   
-                         
-                        value_turns.append(f"D{drone.id}-{next_zone}")
-                         
+                            else:
+                                drone.move_to_zone(next_zone)
+                                drone.path_index +=1
+                                
+                                zone_used[next_zone]= current_count + 1
+                                connections_used[connection_key]= connection_count + 1
+                                # print(drone.id, drone.state, drone.current_zone)   
+                                # print("turn",turn,drone.id)
+                                value_turns.append(f"D{drone.id}-{next_zone}")
                             
-                elif drone.state == "in_flight":
+                                
+                    elif drone.state == "in_flight":
 
-                    drone.flight_turns_re -= 1
-                    next_z = drone.next_zone
-                    zone_t = zone.get(next_z)
+                        drone.flight_turns_re -= 1
+                        next_z = drone.next_zone
+                        zone_t = zone.get(next_z)
 
-                    if drone.flight_turns_re  > 0:
-                        # value_turns.append(f"D{drone.id} waiting {next_z}")
-                        continue
-                
-                    current_count = zone_used.get(next_z, 0)
-                    max_drones = zone_t.metadata.get("max_drones", 1) 
-
-                    if current_count >= max_drones:
+                        if drone.flight_turns_re  > 0:
+                            # value_turns.append(f"D{drone.id} waiting {next_z}")
                             continue
-                    drone.current_zone = next_z
-                    drone.path_index += 1
-                    zone_used[next_z]= current_count + 1
                     
-                        # print(f" turn {turn}:D{drone.id}-{next_z}")
-                    self.visual.run_v(turn, screen)
-                    value_turns.append(f"D{drone.id}-{next_z}")
+                        current_count = zone_used.get(next_z, 0)
+                        max_drones = zone_t.metadata.get("max_drones", 1) 
+
+                        if current_count >= max_drones:
+                                continue
+                        drone.current_zone = next_z
+                        drone.path_index += 1
+                        zone_used[next_z]= current_count + 1
+                        
+                            # print(f" turn {turn}:D{drone.id}-{next_z}")
                     
-                        # print(f"Turn {turn}: Drone {drone.id} state={drone.state}, current={drone.current_zone}, path_index={drone.path_index}")
-                    drone.state = "holding"
-                    drone.next_z= None
-                # p_moves.append(drone.id)
-            # print("drones:",p_moves)
-                
+                        value_turns.append(f"D{drone.id}-{next_z}")
+                        
+                            # print(f"Turn {turn}: Drone {drone.id} state={drone.state}, current={drone.current_zone}, path_index={drone.path_index}")
+                        drone.state = "holding"
+                        drone.next_z= None
+                    # p_moves.append(drone.id)
+                # print("drones:",p_moves)
+                    
             turn_dict[turn] = value_turns    
-            # print(id(self.all_drones), [d.id for d in self.all_drones]) 
-            
+                # print(id(self.all_drones), [d.id for d in self.all_drones]) 
+                
             print(f"turn:{turn_dict}")
+                
             turn += 1
 
         return turn
