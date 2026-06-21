@@ -5,8 +5,8 @@ class Visualisation:
         self.zones = zones
         self.connections = connections
         self.drones = drones
-        self.scale = 50 #100
-        self.margin = 200 #600
+        self.scale = 100 #100
+        self.margin = 600 #600
         self.min_x = 0
         self.min_y = 0
         self.max_x = 0
@@ -51,8 +51,14 @@ class Visualisation:
         for key, element in self.zones.items():
                 dict_zones[element.name] = (element.x, element.y)
         
-        scale_x = (width_screen - self.margin * 2) / (self.max_x - self.min_x)
-        scale_y = (height_screen - self.margin * 2) / (self.max_y - self.min_y)
+        x_screen = self.max_x - self.min_x
+        y_screen = self.max_y - self.min_y
+        if x_screen == 0 or y_screen == 0:
+            scale_x = (width_screen - self.margin * 2) / x_screen
+            scale_y = 1.0
+        else:
+            scale_x = (width_screen - self.margin * 2) / x_screen
+            scale_y = (height_screen - self.margin * 2) / y_screen
 
         # screen = pygame.display.set_mode((width_screen,height_screen))
 

@@ -1,30 +1,15 @@
 class Algo_dijkstra:
     def __init__(self) -> None:
         pass
-
-    # def initialization_dicts(self, t_list:list)->list:
-    #     zones = t_list[1]
-    #     distance = {}
-    #     unvisited = []
-    #     prev = {}
-    #     for k in zones.keys():
-    #         if (k == "start"):
-    #             distance[k] = 0
-    #         else:
-    #             distance[k] = float('inf')
-    #         unvisited.append(k)
-    #         prev[k] = None
-        
-    #     return [distance,unvisited,prev]
     
-    def alog_start(self,t_list:list, dict_neighbors:dict,zones:dict,end_hub:str,)->list:
+    def alog_start(self,t_list:list, dict_neighbors:dict,zones:dict,end_hub:str,zone_used, current_zone)->list:
         
         zones = t_list[1]
         distance_al = {}
         unvisited_al = []
         prev_al = {}
         for k in zones.keys():
-            if (k == "start"):
+            if (k == current_zone):
                 distance_al[k] = 0
             else:
                 distance_al[k] = float('inf')
@@ -68,11 +53,13 @@ class Algo_dijkstra:
                     if element == ele:
                         neighbors_cost[element] = zones[ele].movement_cost()
 
-            
-
             for k,v in neighbors_cost.items():
                 if k not in unvisited_al:
                         continue
+                current_count = zone_used.get(k, 0)
+                max_drones = zones[k].metadata.get("max_drones", 1)
+                if current_count >= max_drones:
+                    v = 999
                 for element in distance_al:
                     if k == element:
                         calculate_dist = small + v
@@ -80,7 +67,6 @@ class Algo_dijkstra:
                             distance_al[k] = calculate_dist
                             prev_al[element] = small_zone_dist
                             
-         
         current = end_hub
 
         while current is not None:

@@ -26,20 +26,19 @@ all_dornes = []
 for i in range(rp[0]):
     # if i == 2:
     # print(f"d{i}: {zones_capacitys}")
-    forbidden = None
+    # forbidden = None
    
     # init = algo.initialization_dicts(rp)
-    dict_neighb = dict_neighbors.found_neighbors(rp,forbidden)
+    dict_neighb = dict_neighbors.found_neighbors(rp)
     # if i == 2:
     #     print(f"hna{i}:{dict_neighb['merge_point']}")
-    path = algo.alog_start(rp,dict_neighb,rp[1],rp[4])
+    zone_used ={}
+    path = algo.alog_start(rp,dict_neighb,rp[1],rp[4],zone_used,"start")
     if not path:
         print(f"ERROR: No path for drone {i}")
         break
     drone = drone_class.Drone(i,path)
     all_dornes.append(drone)
-   
- 
 
 visual = class_visualisation.Visualisation(rp[1],rp[2], all_dornes)
 s_l= visual.smallests_and_largest()
