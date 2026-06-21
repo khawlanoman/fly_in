@@ -2,7 +2,7 @@ class Algo_dijkstra:
     def __init__(self) -> None:
         pass
     
-    def alog_start(self,t_list:list, dict_neighbors:dict,zones:dict,end_hub:str,zone_used, current_zone)->list:
+    def alog_start(self,t_list:list, dict_neighbors:dict,zones:dict,end_hub:str,zone_used, current_zone , all_drones)->list:
         
         zones = t_list[1]
         distance_al = {}
@@ -51,7 +51,17 @@ class Algo_dijkstra:
                 
                 for ele in zones:
                     if element == ele:
-                        neighbors_cost[element] = zones[ele].movement_cost()
+
+                        # best_cost = zones[ele].movement_cost()
+
+                        # dornes_in_zone  = len([d for  d in all_drones if d.current_zone == element])
+                        # max_drones = zones[ele].metadata.get("max_drones", 1)
+                        # if dornes_in_zone >= max_drones:
+                        #     p_cost = dornes_in_zone * 20
+                        # else:
+                        #     p_cost = dornes_in_zone * 1
+                        neighbors_cost[element] =zones[ele].movement_cost()
+
 
             for k,v in neighbors_cost.items():
                 if k not in unvisited_al:

@@ -33,7 +33,8 @@ for i in range(rp[0]):
     # if i == 2:
     #     print(f"hna{i}:{dict_neighb['merge_point']}")
     zone_used ={}
-    path = algo.alog_start(rp,dict_neighb,rp[1],rp[4],zone_used,"start")
+    all_drones = {}
+    path = algo.alog_start(rp,dict_neighb,rp[1],rp[4],zone_used,"start",all_drones )
     if not path:
         print(f"ERROR: No path for drone {i}")
         break

@@ -54,6 +54,7 @@ class Simulation:
 
                     if drone.current_zone == self.end:
                         continue 
+
                     # print(" 9bl drone",drone.id)  
                     if drone.state == "holding":
                             # zone_used[drone.current_zone] = zone_used.get(drone.current_zone, 0) + 1
@@ -76,7 +77,7 @@ class Simulation:
                             for  dr in self.all_drones:
                                 if dr.state == "in_flight":
                                     connection_link = tuple(sorted([dr.current_zone,dr.next_zone]))
-                                    if connection_link >= connection_key:
+                                    if connection_link == connection_key:
                                         connection_check_free = True
                                         break
                             if connection_check_free:
@@ -89,7 +90,7 @@ class Simulation:
                                    
                                     # forbidden_zone = next_zone
                                     dict_neighb = dict_neighbors.found_neighbors(t_list)
-                                    new_path = algo.alog_start(t_list,dict_neighb,zone,end, zone_used, drone.current_zone)
+                                    new_path = algo.alog_start(t_list,dict_neighb,zone,end, zone_used, drone.current_zone, self.all_drones)
                                     # print("drone:",drone.id,"new_pat:",new_path)
                                     if new_path and len(new_path) > 1:
                                         drone.path = new_path
@@ -105,6 +106,7 @@ class Simulation:
                                         zone_t = zone.get(next_zone)
                                         max_drones = zone_t.metadata.get("max_drones", 1) 
                                         max_link = connection_t.metadata.get("max_link_capacity", 1) 
+
                                         if current_count >= max_drones or connection_count >= int(max_link):
                                                 continue
 
