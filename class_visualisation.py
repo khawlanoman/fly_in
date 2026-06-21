@@ -15,7 +15,7 @@ class Visualisation:
     def smallests_and_largest(self)-> tuple:
         if not self.zones:
             return (0,0,0,0)
-       
+
         min_x = min(element.x for  element in self.zones.values())
         min_y = min(element.y for  element in self.zones.values())
 

@@ -1,5 +1,3 @@
-
-
 install:
 	python3 -m pip install -r requirements.txt
 
@@ -10,6 +8,6 @@ debug:
 	python3 -m pdb main.py
 
 clean:
+	rm -rf __pycache__
+	rm -rf models/__pycache__
 
-fclean:
-	
