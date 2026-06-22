@@ -30,19 +30,24 @@ class Simulation:
         for conn in connections:
             key = tuple(sorted([conn.name1, conn.name2]))
             connection_dict[key] = conn
-        
+        # vis = False
         while self.all_drones_at_goal():
             zone_used = {}
             connections_used = {}
             turn_dict = {}
             value_turns = []
 
-            
+           
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     return {}
-              
+                # if event.type == pygame.KEYDOWN:
+                #     if event.key == pygame.K_RETURN:
+        
+                #        vis = True
+            
+            # if vis:
             self.visual.run_v(turn, screen)
 
             # print("self.all_drones:", [d.id for d in self.all_drones])
@@ -159,10 +164,7 @@ class Simulation:
                             drone.current_zone = next_z
                             drone.path_index += 1
                             zone_used[next_z]= zone_used.get(next_z, 0) + 1
-                            
-                            
-                                # print(f" turn {turn}:D{drone.id}-{next_z}")
-                        
+                           
                             value_turns.append(f"D{drone.id}-{next_z}")
                             drone.state = "holding"
                             drone.next_z= None

@@ -69,13 +69,17 @@ while running:
             # Normalize direction (makes length 1) and move by speed
             direction = direction.normalize()
             current_pos += direction * speed
+    mid_x = (current_pos.x + target_pos.x ) / 2
+    mid_y = (current_pos.y + target_pos.y) / 2
 
+    midpoint = (mid_x,mid_y)
     # 3. Render / Draw everything
     screen.fill(BACKGROUND)
     
     # Draw target destination marker
-    pygame.draw.circle(screen, TARGET_COLOR, (int(target_pos.x), int(target_pos.y)), 6)
+    pygame.draw.circle(screen, TARGET_COLOR, (int(target_pos.x), int(target_pos.y)), 10)
     
+    pygame.draw.circle(screen, "green", (int(midpoint[0]), int(midpoint[1])), 20)
     # Draw moving object (Must convert float positions to integers for drawing)
     pygame.draw.circle(screen, CIRCLE_COLOR, (int(current_pos.x), int(current_pos.y)), 20)
 
