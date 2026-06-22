@@ -105,7 +105,6 @@ class Visualisation:
                     screen.blit(my_capatity_data,(((my_capacity_x)),(my_capacity_y)))
 
 
-
         for key, element in self.zones.items():
                     color = element.metadata.get("color", "white")
                     if color is None or color == "rainbow":
@@ -118,7 +117,7 @@ class Visualisation:
                     my_text_zone_x = text_zone.get_width()
                     my_text_zone_y = text_zone.get_height()
                     screen.blit(text_zone,(screen_x - (my_text_zone_x // 2), screen_y - (my_text_zone_y // 2)))
-                    # print(element.metadata.get("max_drones"))
+
                     my_capacity_zone = my_text_capacity.render(f"d = {element.metadata.get("max_drones")}", True, (255,255,255))
                     my_capacity_zone_x = my_capacity_zone.get_width()
                     my_capacity_zone_y = my_capacity_zone.get_height()
