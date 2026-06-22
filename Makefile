@@ -3,7 +3,7 @@ install:
 	python3 -m pip install -r requirements.txt
 
 run:
-	python3 main.py  maps/medium/03_priority_puzzle.txt
+	python3 main.py  maps/hard/03_ultimate_challenge.txt
 
 debug:
 	python3 -m pdb main.py
@@ -21,6 +21,5 @@ lint:
 		--ignore-missing-imports \
 		--disallow-untyped-defs \
 		--check-untyped-defs
-
 
 .PHONY: install run debug clean lint

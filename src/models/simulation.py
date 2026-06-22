@@ -91,9 +91,6 @@ class Simulation:
 
                             if current_count >= max_drones or connection_count >= int(max_link):
                                    
-                                    # print(" in drone",drone.id)    
-                                   
-                                    # forbidden_zone = next_zone
                                     dict_neighb = dict_neighbors.found_neighbors(t_list)
                                     new_path = algo.alog_start(t_list,dict_neighb,zone,end, zone_used, drone.current_zone, self.all_drones)
                                     # print("drone:",drone.id,"new_pat:",new_path)
@@ -139,8 +136,7 @@ class Simulation:
                                 
                                 zone_used[next_zone]= zone_used.get(next_zone, 0) + 1
                                 connections_used[connection_key]= connection_count + 1
-                                # print(drone.id, drone.state, drone.current_zone)   
-                                # print("turn",turn,drone.id)
+
                                 value_turns.append(f"D{drone.id}-{next_zone}")
                                 continue
                                 
@@ -152,7 +148,6 @@ class Simulation:
                             zone_t = zone.get(next_z)
 
                             if drone.flight_turns_re  > 0:
-                                # value_turns.append(f"D{drone.id} waiting {next_z}")
                                 continue
                             
                             current_count = zone_used.get(next_z, 0)
@@ -168,11 +163,8 @@ class Simulation:
                             value_turns.append(f"D{drone.id}-{next_z}")
                             drone.state = "holding"
                             drone.next_z= None
-                    # p_moves.append(drone.id)
-                # print("drones:",p_moves)
-                    
+
             turn_dict[turn] = value_turns    
-                # print(id(self.all_drones), [d.id for d in self.all_drones]) 
                 
             print(f"turn:{turn_dict}")
                 

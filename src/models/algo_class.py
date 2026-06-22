@@ -18,12 +18,8 @@ class Algo_dijkstra:
         
         path = []
        
-
-        # print("prev_al",prev_al)
-        # print("ID of dict_neighbors before while:", id(dict_neighbors))
         """find small zone ("""
         while unvisited_al:
-            # print("ID of dict_neighbors after while:", 
             
             small_zone_dist = None
             small = float('inf')
@@ -37,29 +33,17 @@ class Algo_dijkstra:
           
             """remove  zone from unvisited"""
             unvisited_al.remove(small_zone_dist)
-            # print("\nhinaaa",unvisited_al)
 
             """neighbors" of small zone"""
             for key, value in dict_neighbors.items():
-                # print("neighbor",value)
                 if key == small_zone_dist:
                     neighbors = value
             
-            # print(neighbors)
             neighbors_cost = {}
             for element in neighbors:
                 
                 for ele in zones:
                     if element == ele:
-
-                        # best_cost = zones[ele].movement_cost()
-
-                        # dornes_in_zone  = len([d for  d in all_drones if d.current_zone == element])
-                        # max_drones = zones[ele].metadata.get("max_drones", 1)
-                        # if dornes_in_zone >= max_drones:
-                        #     p_cost = dornes_in_zone * 20
-                        # else:
-                        #     p_cost = dornes_in_zone * 1
                         neighbors_cost[element] =zones[ele].movement_cost()
 
 
@@ -84,6 +68,4 @@ class Algo_dijkstra:
             current = prev_al[current]
         path.reverse()
 
-       
-        # print("Path f", path)
         return path
