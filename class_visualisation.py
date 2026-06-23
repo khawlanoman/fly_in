@@ -6,8 +6,8 @@ class Visualisation:
         self.zones = zones
         self.connections = connections
         self.drones = drones
-        self.scale = 140
-        self.margin = 540
+        self.scale = 50
+        self.margin = 200
         self.min_x = 0
         self.min_y = 0
         self.max_x = 0
@@ -101,7 +101,7 @@ class Visualisation:
                     con_v2_screan_y = ((value2[1] - self.min_y) * scale_y + self.margin)
                     pygame.draw.line(screen, pygame.Color("red"), (con_v1_screan_x,con_v1_screan_y), (con_v2_screan_x,con_v2_screan_y), width=2)
 
-                    my_capatity_data = my_text_capacity.render(f"l={value.metadata.get("max_link_capacity")}", True, (255,255,255))
+                    my_capatity_data = my_text_capacity.render(f"l={value.metadata.get('max_link_capacity')}", True, (255,255,255))
                     my_capacity_x = (con_v1_screan_x + con_v2_screan_x) / 2
                     my_capacity_y = (con_v1_screan_y + con_v2_screan_y) / 2
 
@@ -130,43 +130,80 @@ class Visualisation:
                     my_text_zone_y = text_zone.get_height()
                     screen.blit(text_zone,(screen_x - (my_text_zone_x // 2), screen_y - (my_text_zone_y // 2)))
 
-                    my_capacity_zone = my_text_capacity.render(f"d = {element.metadata.get("max_drones")}", True, (255,255,255))
+                    my_capacity_zone = my_text_capacity.render(f"d = {element.metadata.get('max_drones')}", True, (255,255,255))
                     my_capacity_zone_x = my_capacity_zone.get_width()
                     my_capacity_zone_y = my_capacity_zone.get_height()
                     screen.blit(my_capacity_zone,((screen_x - (my_capacity_zone_x // 2)), (screen_y - (my_capacity_zone_y // 2))- 100))
 
 
-        for element in self.drones:
-                    i = 0
-                    for  key,value in dict_zones.items():
+        # for element in self.drones:
+        #             i = 0
+        #             for  key,value in dict_zones.items():
                         
-                        if element.current_zone == key:
-                                screen_x = ((value[0] - self.min_x) * scale_x + self.margin)
-                                screen_y = ((value[1] - self.min_y) * scale_y + self.margin)
+        #                 if element.current_zone == key:
+        #                         screen_x = ((value[0] - self.min_x) * scale_x + self.margin)
+        #                         screen_y = ((value[1] - self.min_y) * scale_y + self.margin)
                                 
-                                rotate_image = pygame.transform.rotate(drones_image,i)
-                                # print(i)
-                                # pygame.draw.circle(screen, pygame.Color("black"), (screen_x, screen_y), 10)
-                                my_drones_text= my_drone_text.render(f"D{element.id}", True,(255,255 ,255))
-                                my_drone_text_x = my_drones_text.get_width()
-                                my_drone_text_y = my_drones_text.get_height()
+        #                         rotate_image = pygame.transform.rotate(drones_image,i)
+        #                         # print(i)
+        #                         # pygame.draw.circle(screen, pygame.Color("black"), (screen_x, screen_y), 10)
+        #                         my_drones_text= my_drone_text.render(f"D{element.id}", True,(255,255 ,255))
+        #                         my_drone_text_x = my_drones_text.get_width()
+        #                         my_drone_text_y = my_drones_text.get_height()
 
-                                if element.check_rest == 1:
+        #                         if element.check_rest == 1:
                             
-                                    if element.path_index >= 0 :
-                                        # print("hna")
-                                        next_t = element.path[element.path_index]
+        #                             if element.path_index >= 0 :
+        #                                 # print("hna")
+        #                                 next_t = element.path[element.path_index]
                                         
-                                        next_zone = dict_zones.get(next_t)
-                                #     # print(next_z)
-                                        mid_x = (value[0] + next_zone[0]) / 2
-                                        mid_y = (value[1] + next_zone[1]) / 2
+        #                                 next_zone = dict_zones.get(next_t)
+        #                         #     # print(next_z)
+        #                                 mid_x = (value[0] + next_zone[0]) / 2
+        #                                 mid_y = (value[1] + next_zone[1]) / 2
             
-                                        pygame.draw.circle(screen, "red", (mid_x, mid_y), 10)
+        #                                 pygame.draw.circle(screen, "red", (mid_x, mid_y), 10)
                                 
-                                screen.blit(rotate_image,(screen_x - (drone_image_width // 2),screen_y - (drone_image_height // 2)))
-                                #### fix it ###
-                                screen.blit(my_drones_text,((screen_x - (my_drone_text_x // 2)), ((screen_y - (my_drone_text_y // 2))) + 100))
+        #                         screen.blit(rotate_image,(screen_x - (drone_image_width // 2),screen_y - (drone_image_height // 2)))
+        #                         #### fix it ###
+        #                         screen.blit(my_drones_text,((screen_x - (my_drone_text_x // 2)), ((screen_y - (my_drone_text_y // 2))) + 100))
+
+        for element in  self.drones:
+              i  = 0
+              for key, value in dict_zones.items():
+                if element.current_zone == key:
+
+                    target_x = value[0]
+                    target_y = value[1]
+
+                    next_zone =  element.path[element.path_index] if element.path_index < len(element.path) else None
+                    if element.state == "in_flight" and  next_zone:
+                        next_zone_value = dict_zones.get(next_zone)
+                        if next_zone_value:
+                            pro = element.flight_turns_re / 2
+                            target_x = value[0] + (next_zone_value[0] - value[0]) * pro
+                            target_y = value[1] + (next_zone_value[1] - value[1]) * pro
+                       
+                    screen_x = (((target_x - self.min_x) * scale_x) + self.margin)    
+                    screen_y = (((target_y - self.min_y) * scale_y) + self.margin)
+
+                    rotate_image = pygame.transform.rotate(drones_image, i)
+                    screen.blit(rotate_image, (screen_x - (drone_image_width // 2), screen_y - (drone_image_height // 2)))
+
+                    my_drones_text = my_drone_text.render(f"D{element.id}",True,(255,255,255))
+                    my_drone_text_x = my_drones_text.get_width()
+                    my_drones_text_y = my_drones_text.get_height()
+
+                    screen.blit(my_drones_text,((screen_x - (my_drone_text_x // 2), screen_y - (my_drones_text_y // 2) + 100)))
+                        
+
+
+
+        
+
+
+
+
 
         pygame.display.flip()
         clock.tick(1)
