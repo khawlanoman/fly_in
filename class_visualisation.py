@@ -1,20 +1,21 @@
 import pygame
 
+
 class Visualisation:
-    def __init__(self,zones,connections,drones:list) -> None:
+    def __init__(self, zones, connections, drones: list) -> None:
         self.zones = zones
         self.connections = connections
         self.drones = drones
-        self.scale = 140 #100
-        self.margin = 540 #600
+        self.scale = 140
+        self.margin = 540
         self.min_x = 0
         self.min_y = 0
         self.max_x = 0
         self.max_y = 0
-    
-    def smallests_and_largest(self)-> tuple:
+
+    def smallests_and_largest(self) -> tuple:
         if not self.zones:
-            return (0,0,0,0)
+            return (0, 0, 0, 0)
 
         min_x = min(element.x for  element in self.zones.values())
         min_y = min(element.y for  element in self.zones.values())
@@ -151,7 +152,7 @@ class Visualisation:
                                 my_drone_text_y = my_drones_text.get_height()
 
                                 if element.check_rest == 1:
-                                    
+                            
                                     if element.path_index >= 0 :
                                         # print("hna")
                                         next_t = element.path[element.path_index]
@@ -160,14 +161,12 @@ class Visualisation:
                                 #     # print(next_z)
                                         mid_x = (value[0] + next_zone[0]) / 2
                                         mid_y = (value[1] + next_zone[1]) / 2
-                                        # print(mid_x,mid_y)
-                                # #     # #     # screen.blit(rotate_image,(mid_x - (drone_image_width //2),mid_y - (drone_image_height // 2)))
-                                        # screen.blit(rotate_image,(screen_x - (drone_image_width // 2),screen_y - (drone_image_height // 2)))
+            
                                         pygame.draw.circle(screen, "red", (mid_x, mid_y), 10)
                                 
                                 screen.blit(rotate_image,(screen_x - (drone_image_width // 2),screen_y - (drone_image_height // 2)))
                                 #### fix it ###
                                 screen.blit(my_drones_text,((screen_x - (my_drone_text_x // 2)), ((screen_y - (my_drone_text_y // 2))) + 100))
-                                
+
         pygame.display.flip()
         clock.tick(1)
