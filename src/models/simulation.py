@@ -125,7 +125,7 @@ class Simulation:
                                 drone.state = "in_flight"
                                 drone.flight_turns_re = 2
                                 drone.next_zone = next_zone
-                               
+                                drone.check_rest = 1
                                 value_turns.append(f"D{drone.id} go_to_connection ({next_zone})")
                                 continue
                             else:
@@ -162,6 +162,7 @@ class Simulation:
                            
                             value_turns.append(f"D{drone.id}-{next_z}")
                             drone.state = "holding"
+                            drone.check_rest = 0
                             drone.next_z= None
 
             turn_dict[turn] = value_turns    

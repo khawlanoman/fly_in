@@ -6,6 +6,7 @@ class Drone:
         self.path_index = 1
         self.state = "holding"
         self.flight_turns_re = 0
+        self.check_rest  = 0
     
     
     def move_to_zone(self,zone_n:str)->None:
