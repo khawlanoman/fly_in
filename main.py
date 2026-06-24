@@ -29,15 +29,19 @@ for i in range(rp[0]):
     # forbidden = None
    
     # init = algo.initialization_dicts(rp)
-    dict_neighb = dict_neighbors.found_neighbors(rp)
+    try:
+        dict_neighb = dict_neighbors.found_neighbors(rp)
     # if i == 2:
     #     print(f"hna{i}:{dict_neighb['merge_point']}")
-    zone_used ={}
-    all_drones = {}
-    path = algo.alog_start(rp,dict_neighb,rp[1],rp[4],zone_used,"start",all_drones )
-    if not path:
-        print(f"ERROR: No path for drone {i}")
-        break
+        zone_used ={}
+        all_drones = {}
+        path = algo.alog_start(rp,dict_neighb,rp[1],rp[4],zone_used,"start",all_drones )
+        if not path:
+            print(f"ERROR: No path for drone {i}")
+            break
+    except:
+        print(f"no path found")
+        sys.exit(1)
     drone = drone_class.Drone(i,path)
     all_dornes.append(drone)
 

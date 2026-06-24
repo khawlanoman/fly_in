@@ -90,9 +90,12 @@ class Simulation:
                             
 
                             if current_count >= max_drones or connection_count >= int(max_link):
-                                   
-                                    dict_neighb = dict_neighbors.found_neighbors(t_list)
-                                    new_path = algo.alog_start(t_list,dict_neighb,zone,end, zone_used, drone.current_zone, self.all_drones)
+                                    try:
+                                        dict_neighb = dict_neighbors.found_neighbors(t_list)
+                                        new_path = algo.alog_start(t_list,dict_neighb,zone,end, zone_used, drone.current_zone, self.all_drones)
+                                    except:
+                                        print("no path found")
+                                        sys.exit(1)
                                     # print("drone:",drone.id,"new_pat:",new_path)
                                     if new_path and len(new_path) > 1:
                                         drone.path = new_path
