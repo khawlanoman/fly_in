@@ -22,7 +22,7 @@ algo = algo_class.Algo_dijkstra()
 
 zones_capacitys = {}
 all_dornes = []
-
+# print(rp[0])
 for i in range(rp[0]):
     # if i == 2:
     # print(f"d{i}: {zones_capacitys}")
