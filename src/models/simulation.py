@@ -114,7 +114,6 @@ class Simulation:
 
                                         if current_count >= max_drones or connection_count >= int(max_link):
                                                 continue
-
                                     else:
                                         continue
                             if zone_t.metadata.get("zone") == "restricted":

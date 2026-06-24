@@ -5,6 +5,12 @@ import class_visualisation
 import sys
 import pygame
 
+
+# class Main:
+#     def __init__(self) -> none:
+#         pass
+    
+    
 if len(sys.argv) == 2:
     config_file =sys.argv[1]
 
@@ -14,7 +20,7 @@ else:
 
 file_parse = parsing.Read_input_file()
 rp = file_parse.read_file(config_file)
-# print(type(rp))
+
 dict_neighbors = drones_data.Dict_neighbors()
 
 
@@ -22,17 +28,11 @@ algo = algo_class.Algo_dijkstra()
 
 zones_capacitys = {}
 all_dornes = []
-# print(rp[0])
+
 for i in range(rp[0]):
-    # if i == 2:
-    # print(f"d{i}: {zones_capacitys}")
-    # forbidden = None
-   
-    # init = algo.initialization_dicts(rp)
+
     try:
         dict_neighb = dict_neighbors.found_neighbors(rp)
-    # if i == 2:
-    #     print(f"hna{i}:{dict_neighb['merge_point']}")
         zone_used ={}
         all_drones = {}
         path = algo.alog_start(rp,dict_neighb,rp[1],rp[4],zone_used,"start",all_drones )
@@ -53,5 +53,3 @@ window = visual.window_width_hieght(visual.width_height(s_l))
 simula = simulation.Simulation(rp[4],all_dornes,rp[0],visual)
 
 simula.run(rp[1],rp[2],algo,rp[4], rp)
-
-# visual.run_v(simula.run(rp[1],rp[2]))
