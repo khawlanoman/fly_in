@@ -23,7 +23,7 @@ class Simulation:
         width_screen =  screen_info.current_w
         height_screen = screen_info.current_h
         screen = pygame.display.set_mode((width_screen,height_screen))
-       
+        
         dict_neighbors = drones_data.Dict_neighbors()
         #  #
         connection_dict = {}
@@ -49,7 +49,7 @@ class Simulation:
             
             # if vis:
             self.visual.run_v(turn, screen)
-
+            
             # print("self.all_drones:", [d.id for d in self.all_drones])
             for d in self.all_drones:
                 if d.state == "holding" and d.current_zone != self.end:

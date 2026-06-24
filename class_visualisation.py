@@ -6,8 +6,8 @@ class Visualisation:
         self.zones = zones
         self.connections = connections
         self.drones = drones
-        self.scale = 50
-        self.margin = 200
+        self.scale = 140
+        self.margin = 600
         self.min_x = 0
         self.min_y = 0
         self.max_x = 0
@@ -85,7 +85,6 @@ class Visualisation:
         text_turns = my_text_turn.render(f"TURNS: {turn}", True, (0, 255, 0))
         screen.blit(text_turns,(4, 4))
     
-        
         for value in self.connections:
                     check_rest = 0  
                     for key,element in dict_zones.items():

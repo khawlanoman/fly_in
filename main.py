@@ -65,15 +65,15 @@ class Main:
                 turn_t = 0
                 while running:
                         visual.run_v(turn_t,screen)
+                        # screen.fill((50,50,50)) 
                         for event in pygame.event.get():
                                 if event.type == pygame.QUIT:
                                     running = False
-                                    
+
                                 if event.type == pygame.KEYDOWN:
-                                    if event.key == pygame.K_RETURN:  
+                                    if event.key == pygame.K_RETURN:
                                         turn_t = simula.run(rp[1],rp[2],algo,rp[4], rp)
                 pygame.quit()
-
 
 app = Main()
 app.run_main()
