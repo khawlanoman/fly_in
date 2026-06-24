@@ -26,6 +26,7 @@ dict_neighbors = drones_data.Dict_neighbors()
 
 algo = algo_class.Algo_dijkstra()
 
+
 zones_capacitys = {}
 all_dornes = []
 
@@ -52,4 +53,32 @@ window = visual.window_width_hieght(visual.width_height(s_l))
 
 simula = simulation.Simulation(rp[4],all_dornes,rp[0],visual)
 
-simula.run(rp[1],rp[2],algo,rp[4], rp)
+init = True
+
+pygame.init()
+screen_info = pygame.display.Info()
+width_screen =  screen_info.current_w
+height_screen = screen_info.current_h
+screen = pygame.display.set_mode((width_screen,height_screen))
+clock = pygame.time.Clock()
+
+running = True
+turn_t = 0
+while running:
+        visual.run_v(turn_t,screen)
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:  
+                        turn_t = simula.run(rp[1],rp[2],algo,rp[4], rp)
+
+        
+            
+       
+
+pygame.quit()
+
+
+# simula.run(rp[1],rp[2],algo,rp[4], rp)
