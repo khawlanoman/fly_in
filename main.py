@@ -26,7 +26,6 @@ class Main:
 
                 algo = algo_class.Algo_dijkstra()
 
-
                 # zones_capacitys = {}
                 all_dornes = []
 
@@ -63,16 +62,24 @@ class Main:
 
                 running = True
                 turn_t = 0
+                start = False
                 while running:
-                        visual.run_v(turn_t,screen)
+                        # visual.run_v(turn_t,screen)
                         # screen.fill((50,50,50)) 
                         for event in pygame.event.get():
                                 if event.type == pygame.QUIT:
                                     running = False
+                                    
 
                                 if event.type == pygame.KEYDOWN:
                                     if event.key == pygame.K_RETURN:
-                                        turn_t = simula.run(rp[1],rp[2],algo,rp[4], rp)
+                                        start = True
+                        if start:
+                            turn_t = simula.run(rp[1],rp[2],algo,rp[4], rp)
+                            start = False
+                            visual.run_v(turn_t,screen)
+
+                
                 pygame.quit()
 
 app = Main()
