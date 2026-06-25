@@ -1,6 +1,6 @@
 
 class Zone:
-    def __init__(self, name, x, y, metadata=None)->None:
+    def __init__(self, name, x, y, metadata=None)-> None:
         self.name = name
         self.x = x
         self.y = y
@@ -9,10 +9,10 @@ class Zone:
         if metadata:
             self.metadata.update(metadata)
 
-    def movement_cost(self)->int:
-        if self.metadata["zone"] == "normal" or self.metadata["zone"] == "priority":
-                return 1;
+    def movement_cost(self) -> int:
+        if (self.metadata["zone"] == "normal" or self.metadata["zone"] == "priority"):
+                return (1)
         elif self.metadata["zone"] == "restricted":
-                return 2;
+                return (2)
         elif self.metadata["zone"] == "blocked":
-                return 0;
+                return (0)

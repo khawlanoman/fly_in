@@ -1,14 +1,12 @@
 class Drone:
-    def __init__(self,id,path) -> None:
+    def __init__(self, id, path) -> None:
         self.id = id
         self.current_zone = path[0]
         self.path = path
         self.path_index = 1
         self.state = "holding"
         self.flight_turns_re = 0
-        self.check_rest  = 0
-    
-    
-    def move_to_zone(self,zone_n:str)->None:
+        self.check_rest = 0
+
+    def move_to_zone(self, zone_n: str) -> None:
         self.current_zone = zone_n
-        
