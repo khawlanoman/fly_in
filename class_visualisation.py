@@ -6,8 +6,8 @@ class Visualisation:
         self.zones = zones
         self.connections = connections
         self.drones = drones
-        self.scale = 140
-        self.margin = 600
+        self.scale = 50
+        self.margin = 200
         self.min_x = 0
         self.min_y = 0
         self.max_x = 0
@@ -62,7 +62,7 @@ class Visualisation:
             scale_y = (height_screen - self.margin * 2) / y_screen
         pygame.display.set_caption("hello fly_in")
 
-        drones_image = pygame.image.load("drone.png").convert_alpha()
+        drones_image = pygame.image.load("images/drone.png").convert_alpha()
 
         drones_image = pygame.transform.scale(drones_image, (70, 70))
         drone_image_width = drones_image.get_width()

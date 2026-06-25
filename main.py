@@ -58,26 +58,30 @@ class Main:
                 width_screen =  screen_info.current_w
                 height_screen = screen_info.current_h
                 screen = pygame.display.set_mode((width_screen,height_screen))
+
+                image_init = pygame.image.load("images/enter_image.png")
+                image_rect = image_init.get_rect()
+                image_rect.center = (width_screen // 2, height_screen //2)
+                
+
+                
                 # clock = pygame.time.Clock()
 
-                running = True
-                turn_t = 0
                 start = False
-                while running:
-                        # visual.run_v(turn_t,screen)
-                        # screen.fill((50,50,50)) 
-                        for event in pygame.event.get():
-                                if event.type == pygame.QUIT:
-                                    running = False
-                                    
+                screen.blit(image_init,image_rect)
+                pygame.display.flip()
+                while not start:
+                    for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                sys.exit(1)
 
-                                if event.type == pygame.KEYDOWN:
-                                    if event.key == pygame.K_RETURN:
-                                        start = True
-                        if start:
-                            turn_t = simula.run(rp[1],rp[2],algo,rp[4], rp)
-                            start = False
-                            visual.run_v(turn_t,screen)
+                            if event.type == pygame.KEYDOWN:
+                                        if event.key == pygame.K_RETURN:
+                                            start = True
+                
+                turn_t = simula.run(rp[1],rp[2],algo,rp[4], rp)
+                        
+                visual.run_v(turn_t,screen)
 
                 
                 pygame.quit()
