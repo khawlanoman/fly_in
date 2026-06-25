@@ -18,7 +18,7 @@ class Algo_dijkstra:
         
         path = []
        
-        """find small zone ("""
+        """find small zone """
         while unvisited_al:
             
             small_zone_dist = None

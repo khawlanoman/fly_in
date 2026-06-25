@@ -6,8 +6,8 @@ class Visualisation:
         self.zones = zones
         self.connections = connections
         self.drones = drones
-        self.scale = 50
-        self.margin = 200
+        self.scale = 100
+        self.margin = 600
         self.min_x = 0
         self.min_y = 0
         self.max_x = 0

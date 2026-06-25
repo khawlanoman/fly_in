@@ -1,6 +1,6 @@
 PYTHON = python3 
 PIP = $(PYTHON) -m pip
-MAIN = fly-in.py
+MAIN = main.py
 
 all: run
 
@@ -9,7 +9,7 @@ install:
 	$(PIP) install -r requirements.txt
 
 run:
-	$(PYTHON) $(MAIN)
+	$(PYTHON) $(MAIN) maps/easy/03_basic_capacity.txt
 
 debug:
 	$(PYTHON) -m pdb $(MAIN)
