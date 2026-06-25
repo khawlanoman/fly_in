@@ -1,25 +1,32 @@
+PYTHON = python3 
+PIP = $(PYTHON) -m pip
+MAIN = fly-in.py
+
+all: run
 
 install:
-	python3 -m pip install -r requirements.txt
+	$(PIP) install flake8
+	$(PIP) install -r requirements.txt
 
 run:
-	python3 main.py maps/easy/02_simple_fork.txt
+	$(PYTHON) $(MAIN)
 
 debug:
-	python3 -m pdb main.py
+	$(PYTHON) -m pdb $(MAIN)
 
 clean:
 	rm -rf __pycache__
 	rm -rf src/models/__pycache__
 	rm -rf src/parser/__pycache__
+	rm -rf src/.mypy_cache
+	rm -rf src/.pytest_cache
+	rm -rf src/*.pyc
 
 lint:
 	flake8 .
-	mypy . \
-		--warn-return-any \
-		--warn-unused-ignores \
-		--ignore-missing-imports \
-		--disallow-untyped-defs \
-		--check-untyped-defs
+	mypy . --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
 
-.PHONY: install run debug clean lint
+lint-strict:
+	flake8 .
+	mypy . --strict
+
