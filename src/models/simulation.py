@@ -48,34 +48,41 @@ class Simulation:
 
             for d in self.all_drones:
                 if d.state == "holding" and d.current_zone != self.end:
-                    zone_used[d.current_zone] = zone_used.get(d.current_zone, 0) + 1
+                    zone_used[d.current_zone] = zone_used.get(d.current_zone, 0) + 1 # noqa
             for drone in self.all_drones:
                 if drone.current_zone == self.end:
                     continue
                 if drone.state == "holding":
                     next_zone = drone.path[drone.path_index]
-                    connection_key = tuple(sorted([drone.current_zone, next_zone]))
+                    connection_key = tuple(sorted([drone.current_zone,
+                                                   next_zone]))
                     current_count = zone_used.get(next_zone, 0)
                     connection_count = connections_used.get(connection_key, 0)
                     connection_t = connection_dict.get(connection_key)
                     if connection_t is None:
-                        return (f"No connection between {drone.current_zone} and {next_zone}")
+                        return ("No connection between"
+                                f"{drone.current_zone} and {next_zone}")
                     zone_t = zone.get(next_zone)
                     max_drones = zone_t.metadata.get("max_drones", 1)
-                    max_link = connection_t.metadata.get("max_link_capacity", 1)
+                    max_link = connection_t.metadata.get("max_link_capacity", 1) # noqa
                     connection_check_free = False
                     for dr in self.all_drones:
                         if dr.state == "in_flight":
-                            connection_link = tuple(sorted([dr.current_zone, dr.next_zone]))
+                            connection_link = tuple(sorted([dr.current_zone,
+                                                            dr.next_zone]))
                             if connection_link == connection_key:
                                 connection_check_free = True
                                 break
                     if connection_check_free:
                         continue
-                    if current_count >= max_drones or connection_count >= int(max_link):
+                    if (current_count >= max_drones
+                            or connection_count >= int(max_link)):
                         try:
-                            dict_neighb = dict_neighbors.found_neighbors(t_list)
-                            new_path = algo.alog_start(t_list, dict_neighb, zone, end, zone_used, drone.current_zone, self.all_drones)
+                            dict_neighb = dict_neighbors.found_neighbors(t_list) # noqa
+                            new_path = algo.alog_start(t_list, dict_neighb,
+                                                       zone, end, zone_used,
+                                                       drone.current_zone,
+                                                       self.all_drones)
                         except:
                             print("no path found")
                             sys.exit(1)
@@ -85,30 +92,31 @@ class Simulation:
                             drone.state = "holding"
                             drone.next_zone = None
                             next_zone = drone.path[drone.path_index]
-                            connection_key = tuple(sorted([drone.current_zone, next_zone]))
+                            connection_key = tuple(sorted([drone.current_zone, next_zone])) # noqa
                             current_count = zone_used.get(next_zone, 0) + 1
-                            connection_count = connections_used.get(connection_key, 0)
+                            connection_count = connections_used.get(connection_key, 0) # noqa
                             connection_t = connection_dict.get(connection_key)
                             zone_t = zone.get(next_zone)
                             max_drones = zone_t.metadata.get("max_drones", 1)
-                            max_link = connection_t.metadata.get("max_link_capacity", 1)
-                            if current_count >= max_drones or connection_count >= int(max_link):
+                            max_link = connection_t.metadata.get("max_link_capacity", 1) # noqa
+                            if (current_count >= max_drones
+                                    or connection_count >= int(max_link)):
                                 continue
                         else:
                             continue
                     if zone_t.metadata.get("zone") == "restricted":
                         if connection_count >= int(max_link):
                             continue
-                        zone_used[drone.current_zone]  = zone_used.get(drone.current_zone, 1) - 1
+                        zone_used[drone.current_zone]  = zone_used.get(drone.current_zone, 1) - 1 # noqa
                         connections_used[connection_key] = connection_count + 1
                         drone.state = "in_flight"
                         drone.flight_turns_re = 2
                         drone.next_zone = next_zone
                         drone.check_rest = 1
-                        value_turns.append(f"D{drone.id} go_to_connection ({next_zone})")
+                        value_turns.append(f"D{drone.id} go_to_connection ({next_zone})") # noqa
                         continue
                     else:
-                        zone_used[drone.current_zone] = zone_used.get(drone.current_zone, 1) - 1
+                        zone_used[drone.current_zone] = zone_used.get(drone.current_zone, 1) - 1 # noqa
                         connections_used[connection_key] = connection_count + 1
                         drone.move_to_zone(next_zone)
                         drone.path_index += 1

@@ -23,9 +23,16 @@ clean:
 	rm -rf src/*.pyc
 
 lint:
-	flake8 .
-	mypy . --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
+# Run flake8
+#$(PYTHON) -m flake8 .
 
+# Run mypy
+	$(PYTHON) -m mypy . \
+		--warn-return-any \
+		--warn-unused-ignores \
+		--ignore-missing-imports \
+		--disallow-untyped-defs \
+		--check-untyped-defs
 lint-strict:
 	flake8 .
 	mypy . --strict
