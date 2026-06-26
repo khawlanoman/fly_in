@@ -22,13 +22,10 @@ clean:
 	rm -rf src/*.pyc
 
 lint:
-# Run flake8
-#$(PYTHON) -m flake8 .
-
-# Run mypy
-	$(PYTHON) -m mypy main.py src/parser src/models \
+	-$(PYTHON) -m mypy main.py src/parser src/models \
 		--warn-return-any \
 		--warn-unused-ignores \
 		--ignore-missing-imports \
 		--disallow-untyped-defs \
 		--check-untyped-defs
+	$(PYTHON) -m flake8 .
