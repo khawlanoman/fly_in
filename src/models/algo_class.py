@@ -1,3 +1,6 @@
+from src.models.zone_class  import Zone
+
+
 class Algo_dijkstra:
     def __init__(self) -> None:
         pass
@@ -7,9 +10,9 @@ class Algo_dijkstra:
                    all_drones: dict) -> list:
         """this function is for algo dijikstra """
         zones = t_list[1]
-        distance_al = {}
+        distance_al: dict[str, float] = {}
         unvisited_al = []
-        prev_al = {}
+        prev_al: dict[str,Zone] = {}
         for k in zones.keys():
             if (k == current_zone):
                 distance_al[k] = 0

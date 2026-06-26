@@ -10,7 +10,7 @@ class Pars_exception(Exception):
 class Read_input_file:
     def __init__(self) -> None:
         self.nb_drones = 0
-        self.zones = {}
+        self.zones: dict[str, Zone] = {}
         self.connections = []
         self.star_hub = None
         self.end_hub = None
