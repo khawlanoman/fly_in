@@ -1,5 +1,5 @@
 class Drone:
-    def __init__(self, id, path) -> None:
+    def __init__(self, id: int, path: list) -> None:
         self.id = id
         self.current_zone = path[0]
         self.path = path

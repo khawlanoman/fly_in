@@ -1,6 +1,8 @@
+from typing import Optional
+
 
 class Zone:
-    def __init__(self, name, x, y, metadata=None)-> None:
+    def __init__(self, name: str, x: int, y: int, metadata: dict[str, str] | None = None)-> None:
         self.name = name
         self.x = x
         self.y = y
@@ -16,3 +18,4 @@ class Zone:
                 return (2)
         elif self.metadata["zone"] == "blocked":
                 return (0)
+        return (0)

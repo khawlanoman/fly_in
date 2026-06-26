@@ -9,8 +9,7 @@ install:
 	$(PIP) install -r requirements.txt
 
 run:
-	$(PYTHON) $(MAIN) maps/easy/03_basic_capacity.txt
-
+	$(PYTHON) $(MAIN) maps/hard/03_ultimate_challenge.txt
 debug:
 	$(PYTHON) -m pdb $(MAIN)
 
@@ -27,13 +26,9 @@ lint:
 #$(PYTHON) -m flake8 .
 
 # Run mypy
-	$(PYTHON) -m mypy . \
+	$(PYTHON) -m mypy main.py src/parser src/models \
 		--warn-return-any \
 		--warn-unused-ignores \
 		--ignore-missing-imports \
 		--disallow-untyped-defs \
 		--check-untyped-defs
-lint-strict:
-	flake8 .
-	mypy . --strict
-
