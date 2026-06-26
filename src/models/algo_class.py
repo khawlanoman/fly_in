@@ -12,7 +12,7 @@ class Algo_dijkstra:
         zones = t_list[1]
         distance_al: dict[str, float] = {}
         unvisited_al = []
-        prev_al: dict[str,Zone] = {}
+        prev_al: dict[str, Zone | None] = {}
         for k in zones.keys():
             if (k == current_zone):
                 distance_al[k] = 0

@@ -11,7 +11,7 @@ class Read_input_file:
     def __init__(self) -> None:
         self.nb_drones = 0
         self.zones: dict[str, Zone] = {}
-        self.connections = []
+        self.connections: list = []
         self.star_hub = None
         self.end_hub = None
 
@@ -29,7 +29,11 @@ class Read_input_file:
                     continue
                 elif (line.startswith("#")):
                     continue
+                ###
+                value : str
+                ###
                 key, value = line.split(":", 1)
+               
                 if key == "nb_drones":
                     try:
                         value = int(value)
