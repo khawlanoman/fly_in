@@ -12,7 +12,9 @@ class Main:
         pass
 
     def run_main(self) -> None:
-
+        """this function  to call all other
+        classes and  to run the main to run
+        the program """
         if len(sys.argv) == 2:
             config_file = sys.argv[1]
         else:

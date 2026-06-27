@@ -3,6 +3,7 @@ class Dict_neighbors:
         pass
 
     def found_neighbors(self, t_list: list) -> dict:
+        """ this function is for  know the zone neighbors"""
         dict_neighbors = {}
         dict_connections = t_list[2]
         dict_zones = t_list[1]

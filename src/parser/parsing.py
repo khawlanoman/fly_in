@@ -16,6 +16,8 @@ class Read_input_file:
         self.end_hub: str | None = None
 
     def read_file(self, config_file: str) -> list:
+        """this function is for read the map file
+        and parsing part, handle cases"""
         try:
             with open(config_file, 'r') as file:
                 lines = file.readlines()
@@ -32,10 +34,10 @@ class Read_input_file:
                 ###
                 value: str
                 ###
-                if (len(line.split(":",1)) == 2):
+                if (len(line.split(":", 1)) == 2):
                     key, value = line.split(":", 1)
                 else:
-                   raise Pars_exception("Error: line not correct")
+                    raise Pars_exception("Error: line not correct")
 
                 if key == "nb_drones":
                     try:
@@ -72,10 +74,10 @@ class Read_input_file:
                             if not meta.endswith("]"):
                                 raise Pars_exception("\nERROR :metadata"
                                                      "must end with ']'\n")
-                           
+
                             meta_content = meta[1:-1].strip()
                             met_zone = meta_content.strip().split(" ")
-                           
+
                             dict_meta: dict[str, str | int] = {}
                             for element in met_zone:
                                 element = element.strip()

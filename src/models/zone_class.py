@@ -11,6 +11,7 @@ class Zone:
             self.metadata.update(metadata)
 
     def movement_cost(self) -> int:
+        """ this function is  to check the cost of each zone """
         if (self.metadata["zone"] == "normal"
                 or self.metadata["zone"] == "priority"):
             return (1)

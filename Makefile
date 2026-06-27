@@ -10,16 +10,16 @@ install:
 
 run:
 	$(PYTHON) $(MAIN) maps/medium/02_circular_loop.txt
+
 debug:
 	$(PYTHON) -m pdb $(MAIN)
 
 clean:
 	rm -rf __pycache__
 	rm -rf src/models/__pycache__
+	rm -rf src/__pycache__
 	rm -rf src/parser/__pycache__
 	rm -rf .mypy_cache
-	rm -rf src/.pytest_cache
-	rm -rf src/*.pyc
 
 lint:
 	-$(PYTHON) -m mypy main.py src/parser src/models \

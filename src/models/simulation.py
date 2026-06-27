@@ -21,6 +21,10 @@ class Simulation:
 
     def run(self, zone: dict, connections: dict,
             algo: Algo_dijkstra, end: str, t_list: list) -> int:
+        """this function is the import part in project ,
+        is execute the simulation turn by turn , is
+        manage the movement of all drones , is check the
+        zones and connections capacitys... """
         turn = 0
 
         pygame.init()
@@ -149,8 +153,7 @@ class Simulation:
                     drone.next_z = None
 
             turn_dict[turn] = value_turns
-            print(", ".join(f"turn {k}:{"  ".join(ele)} " for k, ele in turn_dict.items()))
-
-           
+            print(", ".join(f"turn {k}:{"  ".join(ele)} "
+                            for k, ele in turn_dict.items()))
 
         return turn

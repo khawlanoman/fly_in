@@ -9,4 +9,5 @@ class Drone:
         self.check_rest = 0
 
     def move_to_zone(self, zone_n: str) -> None:
+        """ this function is for  take the next zone for  drone"""
         self.current_zone = zone_n
