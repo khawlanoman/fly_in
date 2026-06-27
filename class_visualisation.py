@@ -2,7 +2,7 @@ import pygame
 
 
 class Visualisation:
-    def __init__(self, zones :dict, connections: dict, drones: list) -> None:
+    def __init__(self, zones: dict, connections: dict, drones: list) -> None:
         self.zones = zones
         self.connections = connections
         self.drones = drones
@@ -34,13 +34,13 @@ class Visualisation:
         height_t = t_small_larg[3] - t_small_larg[1]
         return (width_t, height_t)
 
-    def window_width_hieght(self, t_width_height) -> tuple:
+    def window_width_hieght(self, t_width_height: tuple) -> tuple:
 
         window_width = (t_width_height[0] * self.scale + (self.margin * 2))
         window_hieght = (t_width_height[1] * self.scale + (self.margin * 2))
         return (window_width, window_hieght)
 
-    def run_v(self, turn: int, screen: pygame.Surface):
+    def run_v(self, turn: int, screen: pygame.Surface) -> None:
 
         dict_zones = {}
         pygame.init()

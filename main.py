@@ -25,7 +25,7 @@ class Main:
         for i in range(rp[0]):
             try:
                 dict_neighb = dict_neighbors.found_neighbors(rp)
-                zone_used: dict[str, int]= {}
+                zone_used: dict[str, int] = {}
                 all_drones: list[Zone] = []
                 path = algo.alog_start(rp, dict_neighb, rp[1],
                                        rp[4], zone_used,
@@ -56,13 +56,13 @@ class Main:
         start = False
         screen.blit(image_init, image_rect)
         pygame.display.flip()
-        # while not start:
-        #     for event in pygame.event.get():
-        #         if event.type == pygame.QUIT:
-        #             sys.exit(1)
-        #         if event.type == pygame.KEYDOWN:
-        #             if event.key == pygame.K_RETURN:
-        #                 start = True
+        while not start:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit(1)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        start = True
         turn_t = simula.run(rp[1], rp[2], algo, rp[4], rp)
         visual.run_v(turn_t, screen)
         pygame.quit()

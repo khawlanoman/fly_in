@@ -1,11 +1,13 @@
 import pygame
 from src.models import drones_data
+from class_visualisation import Visualisation
+from src.models.algo_class import Algo_dijkstra
 import sys
 
 
 class Simulation:
     def __init__(self, end_hub: str, all_dornes: list,
-                 nb_drones: int, visual) -> None:
+                 nb_drones: int, visual: Visualisation) -> None:
         self.end = end_hub
         self.all_drones = all_dornes
         self.nb_drones = nb_drones
@@ -18,7 +20,7 @@ class Simulation:
         return False
 
     def run(self, zone: dict, connections: dict,
-            algo, end: str, t_list: list) -> int:
+            algo: Algo_dijkstra, end: str, t_list: list) -> int:
         turn = 0
 
         pygame.init()
@@ -34,17 +36,17 @@ class Simulation:
             connection_dict[key] = conn
 
         while self.all_drones_at_goal():
-            zone_used: dict[str, int]= {}
-            connections_used: dict[tuple,int]= {}
+            zone_used: dict[str, int] = {}
+            connections_used: dict[tuple, int] = {}
             turn_dict = {}
             value_turns = []
 
-            # for event in pygame.event.get():
-            #     if event.type == pygame.QUIT:
-            #         pygame.quit()
-            #         return {}
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    return 0
 
-            # self.visual.run_v(turn, screen)
+            self.visual.run_v(turn, screen)
 
             for d in self.all_drones:
                 if d.state == "holding" and d.current_zone != self.end:
@@ -60,8 +62,8 @@ class Simulation:
                     connection_count = connections_used.get(connection_key, 0)
                     connection_t = connection_dict.get(connection_key)
                     if connection_t is None:
-                        print ("No connection between"
-                                f"{drone.current_zone} and {next_zone}")
+                        print("No connection between"
+                              f"{drone.current_zone} and {next_zone}")
                         return -1
                     zone_t = zone[next_zone]
                     max_drones = zone_t.metadata.get("max_drones", 1)
@@ -84,7 +86,7 @@ class Simulation:
                                                        zone, end, zone_used,
                                                        drone.current_zone,
                                                        self.all_drones)
-                        except:
+                        except ValueError:
                             print("no path found")
                             sys.exit(1)
                         if new_path and len(new_path) > 1:

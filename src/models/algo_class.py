@@ -1,4 +1,4 @@
-from src.models.zone_class  import Zone
+from src.models.zone_class import Zone
 
 
 class Algo_dijkstra:
@@ -7,12 +7,12 @@ class Algo_dijkstra:
 
     def alog_start(self, t_list: list, dict_neighbors: dict, zones: dict,
                    end_hub: str, zone_used: dict, current_zone: str,
-                   all_drones: dict) -> list:
+                   all_drones: list[Zone]) -> list:
         """this function is for algo dijikstra """
         zones = t_list[1]
         distance_al: dict[str, float] = {}
         unvisited_al = []
-        prev_al: dict[str, str| None] = {}
+        prev_al: dict[str, str | None] = {}
         for k in zones.keys():
             if (k == current_zone):
                 distance_al[k] = 0

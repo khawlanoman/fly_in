@@ -30,10 +30,10 @@ class Read_input_file:
                 elif (line.startswith("#")):
                     continue
                 ###
-                value : str
+                value: str
                 ###
                 key, value = line.split(":", 1)
-               
+
                 if key == "nb_drones":
                     try:
                         nb_value = int(value)
@@ -63,11 +63,11 @@ class Read_input_file:
 
                             if not meta.startswith("["):
                                 raise Pars_exception("\nERROR :metadata"
-                                                    "must start with '['\n")
+                                                     "must start with '['\n")
 
                             if not meta.endswith("]"):
                                 raise Pars_exception("\nERROR :metadata"
-                                                    "must end with ']'\n")
+                                                     "must end with ']'\n")
 
                             meta_content = meta[1:-1].strip()
                             met_zone = meta_content.strip().split(" ")
@@ -77,24 +77,28 @@ class Read_input_file:
                                 element = element.strip()
                                 if "=" not in element:
                                     raise Pars_exception("\nERROR :meta"
-                                                        "must have '='\n")
+                                                         "must have '='\n")
 
                                 meta_key, meta_value = element.split("=", 1)
                                 meta_key = meta_key.strip()
                                 meta_value = meta_value.strip()
-                                if meta_key not in ("zone", "color", "max_drones"):
-                                    raise Pars_exception("\nERROR:metadata should"
-                                                        "be a zone,color,"
-                                                        "max_drones\n")
+                                if meta_key not in ("zone", "color",
+                                                    "max_drones"):
+                                    raise Pars_exception("\nERROR:metadata"
+                                                         "should"
+                                                         "be a zone,color,"
+                                                         "max_drones\n")
 
                                 if meta_key == "zone":
                                     if meta_value not in ("normal", "blocked",
-                                                        "restricted",
-                                                        "priority"):
-                                        raise Pars_exception("ERROR:metadata zone"
-                                                            "must be normal,"
-                                                            "blocked restricted,"
-                                                            "priority'\n")
+                                                          "restricted",
+                                                          "priority"):
+                                        raise Pars_exception("ERROR:metadata"
+                                                             "zone"
+                                                             "must be normal,"
+                                                             "blocked"
+                                                             "restricted,"
+                                                             "priority'\n")
                                     dict_meta[meta_key] = meta_value
                                 if meta_key == "color":
                                     dict_meta[meta_key] = meta_value
@@ -103,13 +107,18 @@ class Read_input_file:
                                     try:
                                         meta_value_d = int(meta_value)
                                         if meta_value_d < 0:
-                                            raise Pars_exception("\nERROR:metadata"
-                                                                "max_drones must"
-                                                                "be a number\n")
+                                            raise Pars_exception("\nERROR:"
+                                                                 " metadata"
+                                                                 " max_drones"
+                                                                 " must"
+                                                                 " be a"
+                                                                 " number\n")
                                     except ValueError:
-                                        raise Pars_exception("\nERROR :metadata"
-                                                            "max_drones must be"
-                                                            "a number\n")
+                                        raise Pars_exception("\nERROR:"
+                                                             " metadata"
+                                                             " max_drones"
+                                                             " must be"
+                                                             " a number\n")
                                     dict_meta[meta_key] = meta_value_d
 
                                 # dict_meta[meta_key] = meta_value
@@ -171,11 +180,12 @@ class Read_input_file:
                                                  "max_link_capacity\n")
                         try:
                             meta_v = int(meta_con_value)
-                        except:
-                            raise Pars_exception("ERROR : max_link_capacity should be a integer")
+                        except ValueError:
+                            raise Pars_exception("ERROR : max_link_capacity"
+                                                 " should be a integer")
                         if meta_con is not None:
                             meta_con_dict = {meta_con_key.strip():
-                                        meta_v}
+                                             meta_v}
 
                     if (not isinstance(name1, str)
                             or not isinstance(name2, str)):
