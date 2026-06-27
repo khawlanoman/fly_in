@@ -12,7 +12,7 @@ class Algo_dijkstra:
         zones = t_list[1]
         distance_al: dict[str, float] = {}
         unvisited_al = []
-        prev_al: dict[str, Zone | None] = {}
+        prev_al: dict[str, str| None] = {}
         for k in zones.keys():
             if (k == current_zone):
                 distance_al[k] = 0
@@ -66,7 +66,10 @@ class Algo_dijkstra:
 
         while current is not None:
             path.append(current)
-            current = prev_al[current]
+            pr = prev_al[current]
+            if pr is None:
+                break
+            current = pr
         path.reverse()
 
         return path

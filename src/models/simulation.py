@@ -11,14 +11,14 @@ class Simulation:
         self.nb_drones = nb_drones
         self.visual = visual
 
-    def all_drones_at_goal(self):
+    def all_drones_at_goal(self) -> bool:
         for drone in self.all_drones:
             if drone.current_zone != self.end:
                 return True
         return False
 
     def run(self, zone: dict, connections: dict,
-            algo, end: str, t_list: list) -> dict:
+            algo, end: str, t_list: list) -> int:
         turn = 0
 
         pygame.init()
@@ -34,17 +34,17 @@ class Simulation:
             connection_dict[key] = conn
 
         while self.all_drones_at_goal():
-            zone_used = {}
-            connections_used = {}
+            zone_used: dict[str, int]= {}
+            connections_used: dict[tuple,int]= {}
             turn_dict = {}
             value_turns = []
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    return {}
+            # for event in pygame.event.get():
+            #     if event.type == pygame.QUIT:
+            #         pygame.quit()
+            #         return {}
 
-            self.visual.run_v(turn, screen)
+            # self.visual.run_v(turn, screen)
 
             for d in self.all_drones:
                 if d.state == "holding" and d.current_zone != self.end:
@@ -60,9 +60,10 @@ class Simulation:
                     connection_count = connections_used.get(connection_key, 0)
                     connection_t = connection_dict.get(connection_key)
                     if connection_t is None:
-                        return ("No connection between"
+                        print ("No connection between"
                                 f"{drone.current_zone} and {next_zone}")
-                    zone_t = zone.get(next_zone)
+                        return -1
+                    zone_t = zone[next_zone]
                     max_drones = zone_t.metadata.get("max_drones", 1)
                     max_link = connection_t.metadata.get("max_link_capacity", 1) # noqa
                     connection_check_free = False
@@ -95,8 +96,8 @@ class Simulation:
                             connection_key = tuple(sorted([drone.current_zone, next_zone])) # noqa
                             current_count = zone_used.get(next_zone, 0) + 1
                             connection_count = connections_used.get(connection_key, 0) # noqa
-                            connection_t = connection_dict.get(connection_key)
-                            zone_t = zone.get(next_zone)
+                            connection_t = connection_dict[connection_key]
+                            zone_t = zone[next_zone]
                             max_drones = zone_t.metadata.get("max_drones", 1)
                             max_link = connection_t.metadata.get("max_link_capacity", 1) # noqa
                             if (current_count >= max_drones
@@ -129,7 +130,7 @@ class Simulation:
                 if drone.state == "in_flight":
                     drone.flight_turns_re -= 1
                     next_z = drone.next_zone
-                    zone_t = zone.get(next_z)
+                    zone_t = zone[next_z]
                     if drone.flight_turns_re > 0:
                         continue
                     current_count = zone_used.get(next_z, 0)

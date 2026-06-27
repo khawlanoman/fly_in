@@ -12,8 +12,8 @@ class Read_input_file:
         self.nb_drones = 0
         self.zones: dict[str, Zone] = {}
         self.connections: list = []
-        self.star_hub = None
-        self.end_hub = None
+        self.star_hub: str | None = None
+        self.end_hub: str | None = None
 
     def read_file(self, config_file: str) -> list:
         try:
@@ -36,11 +36,11 @@ class Read_input_file:
                
                 if key == "nb_drones":
                     try:
-                        value = int(value)
+                        nb_value = int(value)
                     except ValueError:
                         raise Pars_exception("\nError:nb_drones"
                                              "should be a integer\n")
-                    self.nb_drones = int(value)
+                    self.nb_drones = int(nb_value)
                 if key in ("start_hub", "hub", "end_hub"):
                     part_value = value.strip().split(" ", 3)
                     if len(part_value) == 3:
@@ -51,66 +51,71 @@ class Read_input_file:
                     if not isinstance(name, str):
                         raise Pars_exception("\nERROR:name not a string\n")
                     try:
-                        x = int(x)
-                        y = int(y)
+                        x_z = int(x)
+                        y_z = int(y)
                     except ValueError:
                         raise Pars_exception("\nERROR:x or y is not"
                                              "a valid integer\n")
 
                     if len(part_value) == 4:
-                        meta = meta.strip()
+                        if meta is not None:
+                            meta = meta.strip()
 
-                        if not meta.startswith("["):
-                            raise Pars_exception("\nERROR :metadata"
-                                                 "must start with '['\n")
+                            if not meta.startswith("["):
+                                raise Pars_exception("\nERROR :metadata"
+                                                    "must start with '['\n")
 
-                        if not meta.endswith("]"):
-                            raise Pars_exception("\nERROR :metadata"
-                                                 "must end with ']'\n")
+                            if not meta.endswith("]"):
+                                raise Pars_exception("\nERROR :metadata"
+                                                    "must end with ']'\n")
 
-                        meta_content = meta[1:-1].strip()
-                        met_zone = meta_content.strip().split(" ")
+                            meta_content = meta[1:-1].strip()
+                            met_zone = meta_content.strip().split(" ")
 
-                        dict_meta = {}
-                        for element in met_zone:
-                            element = element.strip()
-                            if "=" not in element:
-                                raise Pars_exception("\nERROR :meta"
-                                                     "must have '='\n")
+                            dict_meta: dict[str, str | int] = {}
+                            for element in met_zone:
+                                element = element.strip()
+                                if "=" not in element:
+                                    raise Pars_exception("\nERROR :meta"
+                                                        "must have '='\n")
 
-                            meta_key, meta_value = element.split("=", 1)
-                            meta_key = meta_key.strip()
-                            meta_value = meta_value.strip()
-                            if meta_key not in ("zone", "color", "max_drones"):
-                                raise Pars_exception("\nERROR:metadata should"
-                                                     "be a zone,color,"
-                                                     "max_drones\n")
+                                meta_key, meta_value = element.split("=", 1)
+                                meta_key = meta_key.strip()
+                                meta_value = meta_value.strip()
+                                if meta_key not in ("zone", "color", "max_drones"):
+                                    raise Pars_exception("\nERROR:metadata should"
+                                                        "be a zone,color,"
+                                                        "max_drones\n")
 
-                            if meta_key == "zone":
-                                if meta_value not in ("normal", "blocked",
-                                                      "restricted",
-                                                      "priority"):
-                                    raise Pars_exception("ERROR:metadata zone"
-                                                         "must be normal,"
-                                                         "blocked restricted,"
-                                                         "priority'\n")
+                                if meta_key == "zone":
+                                    if meta_value not in ("normal", "blocked",
+                                                        "restricted",
+                                                        "priority"):
+                                        raise Pars_exception("ERROR:metadata zone"
+                                                            "must be normal,"
+                                                            "blocked restricted,"
+                                                            "priority'\n")
+                                    dict_meta[meta_key] = meta_value
+                                if meta_key == "color":
+                                    dict_meta[meta_key] = meta_value
 
-                            if meta_key == "max_drones":
-                                try:
-                                    meta_value = int(meta_value)
-                                    if meta_value < 0:
-                                        raise Pars_exception("\nERROR:metadata"
-                                                             "max_drones must"
-                                                             "be a number\n")
-                                except ValueError:
-                                    raise Pars_exception("\nERROR :metadata"
-                                                         "max_drones must be"
-                                                         "a number\n")
+                                if meta_key == "max_drones":
+                                    try:
+                                        meta_value_d = int(meta_value)
+                                        if meta_value_d < 0:
+                                            raise Pars_exception("\nERROR:metadata"
+                                                                "max_drones must"
+                                                                "be a number\n")
+                                    except ValueError:
+                                        raise Pars_exception("\nERROR :metadata"
+                                                            "max_drones must be"
+                                                            "a number\n")
+                                    dict_meta[meta_key] = meta_value_d
 
-                            dict_meta[meta_key] = meta_value
-                        meta = dict_meta
+                                # dict_meta[meta_key] = meta_value
+                            meta_dict = dict_meta
 
-                    zone = Zone(name, x, y, meta)
+                    zone = Zone(name, x_z, y_z, meta_dict)
 
                     self.zones[zone.name] = zone
                 if key == "start_hub":
@@ -120,6 +125,7 @@ class Read_input_file:
 
                 if key == "connection":
                     part_value = value.strip().split(" ", 1)
+                    meta_con_dict = None
                     if len(part_value) == 1:
                         part_con_name = part_value[0].split("-", 1)
                         if len(part_con_name) == 2:
@@ -156,22 +162,26 @@ class Read_input_file:
                             raise Pars_exception("ERROR:metadata in connection"
                                                  "should be  just a"
                                                  "max_link_capacity\n")
-
+                        meta_con_dict = None
                         meta_con_key, meta_con_value = met_con_check[0].split("=", 1) # noqa
 
                         if meta_con_key.strip() != "max_link_capacity":
                             raise Pars_exception("\nERROR :metadata in"
                                                  "connection should be just a"
                                                  "max_link_capacity\n")
-
-                        meta_con = {meta_con_key.strip():
-                                    meta_con_value.strip()}
+                        try:
+                            meta_v = int(meta_con_value)
+                        except:
+                            raise Pars_exception("ERROR : max_link_capacity should be a integer")
+                        if meta_con is not None:
+                            meta_con_dict = {meta_con_key.strip():
+                                        meta_v}
 
                     if (not isinstance(name1, str)
                             or not isinstance(name2, str)):
                         raise Pars_exception("\nERROR :connection"
                                              "not correct\n")
-                    connection = Connection(name1, name2, meta_con)
+                    connection = Connection(name1, name2, meta_con_dict)
 
                     for element in self.connections:
                         if (connection.name1 == element.name1

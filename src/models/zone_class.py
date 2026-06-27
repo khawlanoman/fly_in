@@ -1,5 +1,5 @@
 class Zone:
-    def __init__(self, name: str, x: int, y: int, metadata: dict[str, str] | None = None)-> None:
+    def __init__(self, name: str, x: int, y: int, metadata: dict[str, str | int] | None = None)-> None:
         self.name = name
         self.x = x
         self.y = y
