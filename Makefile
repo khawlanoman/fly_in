@@ -9,7 +9,7 @@ install:
 	$(PIP) install -r requirements.txt
 
 run:
-	$(PYTHON) $(MAIN) maps/hard/03_ultimate_challenge.txt
+	$(PYTHON) $(MAIN) maps/medium/02_circular_loop.txt
 debug:
 	$(PYTHON) -m pdb $(MAIN)
 
@@ -17,7 +17,7 @@ clean:
 	rm -rf __pycache__
 	rm -rf src/models/__pycache__
 	rm -rf src/parser/__pycache__
-	rm -rf src/.mypy_cache
+	rm -rf .mypy_cache
 	rm -rf src/.pytest_cache
 	rm -rf src/*.pyc
 

@@ -40,7 +40,7 @@ class Simulation:
             connections_used: dict[tuple, int] = {}
             turn_dict = {}
             value_turns = []
-
+            turn += 1
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -116,7 +116,7 @@ class Simulation:
                         drone.flight_turns_re = 2
                         drone.next_zone = next_zone
                         drone.check_rest = 1
-                        value_turns.append(f"D{drone.id} go_to_connection ({next_zone})") # noqa
+                        value_turns.append(f"D{drone.id}-connection({next_zone})") # noqa
                         continue
                     else:
                         zone_used[drone.current_zone] = zone_used.get(drone.current_zone, 1) - 1 # noqa
@@ -149,8 +149,8 @@ class Simulation:
                     drone.next_z = None
 
             turn_dict[turn] = value_turns
-            print(f"turn:{turn_dict}")
+            print(", ".join(f"turn {k}:{"  ".join(ele)} " for k, ele in turn_dict.items()))
 
-            turn += 1
+           
 
         return turn

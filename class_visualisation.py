@@ -130,13 +130,22 @@ class Visualisation:
             screen.blit(text_zone,
                         (screen_x - (my_text_zone_x // 2),
                          screen_y - (my_text_zone_y // 2)))
-            my_capacity_zone = my_text_capacity.render(f"d = {element.metadata.get('max_drones')}", True, (255,255,255)) # noqa
-            my_capacity_zone_x = my_capacity_zone.get_width()
-            my_capacity_zone_y = my_capacity_zone.get_height()
-            screen.blit(my_capacity_zone,
-                        ((screen_x - (my_capacity_zone_x // 2)),
-                         (screen_y - (my_capacity_zone_y // 2))
-                         - 100))
+            if key == "start" or key == "goal":
+                my_capacity_zone = my_text_capacity.render(f"d = {len(self.drones)}", True, (255,255,255)) # noqa
+                my_capacity_zone_x = my_capacity_zone.get_width()
+                my_capacity_zone_y = my_capacity_zone.get_height()
+                screen.blit(my_capacity_zone,
+                            ((screen_x - (my_capacity_zone_x // 2)),
+                            (screen_y - (my_capacity_zone_y // 2))
+                            - 100))
+            else:
+                my_capacity_zone = my_text_capacity.render(f"d = {element.metadata.get('max_drones')}", True, (255,255,255)) # noqa
+                my_capacity_zone_x = my_capacity_zone.get_width()
+                my_capacity_zone_y = my_capacity_zone.get_height()
+                screen.blit(my_capacity_zone,
+                            ((screen_x - (my_capacity_zone_x // 2)),
+                            (screen_y - (my_capacity_zone_y // 2))
+                            - 100))
 
         for element in self.drones:
             i = 0
