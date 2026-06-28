@@ -39,8 +39,9 @@ class Read_input_file:
                     key, value = line.split(":", 1)
                 else:
                     raise Pars_exception("Error: line not correct")
-
-                if key == "nb_drones":
+                if key.strip() not in ["nb_drones","start_hub", "hub", "end_hub","connection"]:
+                    raise Pars_exception("key not found")
+                if key.strip() == "nb_drones":
                     try:
                         nb_value = int(value)
                         if nb_value < 0:
@@ -51,8 +52,8 @@ class Read_input_file:
                         raise Pars_exception("\nError:nb_drones"
                                              "should be a integer\n")
                     self.nb_drones = int(nb_value)
-                if key in ("start_hub", "hub", "end_hub"):
-                    part_value = value.strip().split(" ", 3)
+                if key.strip() in ("start_hub", "hub", "end_hub"):
+                    part_value = value.strip().split(None, 3)
                     if len(part_value) == 3:
                         name, x, y = part_value
                         meta = None
@@ -143,8 +144,8 @@ class Read_input_file:
                 if key == "end_hub":
                     self.end_hub = zone.name
 
-                if key == "connection":
-                    part_value = value.strip().split(" ", 1)
+                if key.strip() == "connection":
+                    part_value = value.strip().split(None, 1)
                     meta_con_dict = None
                     if len(part_value) == 1:
                         part_con_name = part_value[0].split("-", 1)
@@ -221,10 +222,10 @@ class Read_input_file:
                     coor_zones[con.name2] = (self.zones[con.name2].x,
                                              self.zones[con.name2].y)
                 if con.name1 not in self.zones.keys():
-                    raise Pars_exception("\nconnection is not"
-                                         "in zones ", con.name1)
+                    raise Pars_exception("connection is not"
+                                         " in zones ", con.name1)
                 if con.name2 not in self.zones.keys():
-                    raise Pars_exception("\nconnection is"
+                    raise Pars_exception("connection is"
                                          "not inzones ", con.name2)
 
             # coor_values = coor_zones.values()

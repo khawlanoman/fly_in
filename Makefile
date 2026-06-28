@@ -10,6 +10,7 @@ install:
 
 run:
 	$(PYTHON) $(MAIN) maps/easy/02_simple_fork.txt
+	
 debug:
 	$(PYTHON) -m pdb $(MAIN)
 

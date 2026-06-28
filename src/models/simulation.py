@@ -49,7 +49,7 @@ class Simulation:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     return 0
-
+            self.visual.run_v(turn, screen)
             for d in self.all_drones:
                 if d.state == "holding" and d.current_zone != self.end:
                     zone_used[d.current_zone] = zone_used.get(d.current_zone, 0) + 1 # noqa
@@ -150,9 +150,9 @@ class Simulation:
                     drone.check_rest = 0
                     drone.next_z = None
 
-            self.visual.run_v(turn, screen)
+            
             turn_dict[turn] = value_turns
             print(", ".join(f"turn {k}:{"  ".join(ele)} "
                             for k, ele in turn_dict.items()))
-
+        self.visual.run_v(turn, screen)
         return turn
