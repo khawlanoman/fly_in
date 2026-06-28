@@ -61,6 +61,9 @@ class Algo_dijkstra:
                         if calculate_dist < distance_al[k]:
                             distance_al[k] = calculate_dist
                             prev_al[element] = small_zone_dist
+                        elif calculate_dist == distance_al[k]:
+                            if zones[small_zone_dist].metadata["zone"] == "priority": # noqa
+                                prev_al[element] = small_zone_dist
 
         current = end_hub
 

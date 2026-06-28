@@ -3,6 +3,7 @@ from ..models.connection_class import Connection
 import sys
 import re
 
+
 class Pars_exception(Exception):
     pass
 
@@ -44,7 +45,8 @@ class Read_input_file:
                         nb_value = int(value)
                         if nb_value < 0:
                             raise Pars_exception("\nError:nb_drones"
-                                             "should be a positive number \n")
+                                                 " should be a"
+                                                 " positive number \n")
                     except ValueError:
                         raise Pars_exception("\nError:nb_drones"
                                              "should be a integer\n")
@@ -80,7 +82,7 @@ class Read_input_file:
 
                             meta_content = meta[1:-1].strip()
                             met_zones = meta_content.strip()
-                            met_z = re.sub(r"\s*=\s*","=", met_zones).strip()
+                            met_z = re.sub(r"\s*=\s*", "=", met_zones).strip()
                             met_zone = met_z.split(" ")
                             dict_meta: dict[str, str | int] = {}
                             for element in met_zone:
@@ -184,7 +186,8 @@ class Read_input_file:
                             meta_v = int(meta_con_value)
                             if meta_v < 0:
                                 raise Pars_exception("\nma_link_capacity "
-                                             "should be a positive number \n")
+                                                     " should be a"
+                                                     " positive number \n")
                         except ValueError:
                             raise Pars_exception("ERROR : max_link_capacity"
                                                  " should be a integer")
