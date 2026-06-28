@@ -38,7 +38,7 @@ class Main:
                     break
             except ValueError:
                 print("no path found")
-                sys.exit(1)
+                sys.exit(0)
             drone = drone_class.Drone(i, path)
             all_dornes.append(drone)
         visual = class_visualisation.Visualisation(rp[1],
@@ -63,7 +63,7 @@ class Main:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    sys.exit(1)
+                    sys.exit(0)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         start = True

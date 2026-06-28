@@ -150,7 +150,6 @@ class Simulation:
                     drone.check_rest = 0
                     drone.next_z = None
 
-            
             turn_dict[turn] = value_turns
             print(", ".join(f"turn {k}:{"  ".join(ele)} "
                             for k, ele in turn_dict.items()))

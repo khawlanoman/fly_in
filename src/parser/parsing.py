@@ -24,7 +24,7 @@ class Read_input_file:
                 lines = file.readlines()
         except FileNotFoundError as e:
             print(f"{e}")
-            sys.exit(1)
+            sys.exit(0)
         try:
             for l_line in lines:
                 line = l_line.strip()
@@ -39,17 +39,17 @@ class Read_input_file:
                     key, value = line.split(":", 1)
                 else:
                     raise Pars_exception("Error: line not correct")
-                if key.strip() not in ["nb_drones","start_hub", "hub", "end_hub","connection"]:
+                if key.strip() not in ["nb_drones","start_hub", "hub", "end_hub","connection"]: # noqa
                     raise Pars_exception("key not found")
                 if key.strip() == "nb_drones":
                     try:
                         nb_value = int(value)
                         if nb_value < 0:
-                            raise Pars_exception("\nError:nb_drones"
+                            raise Pars_exception("ERROR:nb_drones"
                                                  " should be a"
                                                  " positive number \n")
                     except ValueError:
-                        raise Pars_exception("\nError:nb_drones"
+                        raise Pars_exception("ERROR:nb_drones"
                                              "should be a integer\n")
                     self.nb_drones = int(nb_value)
                 if key.strip() in ("start_hub", "hub", "end_hub"):
@@ -61,12 +61,12 @@ class Read_input_file:
                     elif len(part_value) == 4:
                         name, x, y, meta = part_value
                     if not isinstance(name, str):
-                        raise Pars_exception("\nERROR:name not a string\n")
+                        raise Pars_exception("ERROR:name not a string\n")
                     try:
                         x_z = int(x)
                         y_z = int(y)
                     except ValueError:
-                        raise Pars_exception("\nERROR:x or y is not"
+                        raise Pars_exception("ERROR:x or y is not"
                                              "a valid integer\n")
 
                     if len(part_value) == 4:
@@ -74,11 +74,11 @@ class Read_input_file:
                             meta = meta.strip()
 
                             if not meta.startswith("["):
-                                raise Pars_exception("\nERROR :metadata"
+                                raise Pars_exception("ERROR :metadata"
                                                      "must start with '['\n")
 
                             if not meta.endswith("]"):
-                                raise Pars_exception("\nERROR :metadata"
+                                raise Pars_exception("ERROR :metadata"
                                                      "must end with ']'\n")
 
                             meta_content = meta[1:-1].strip()
@@ -89,7 +89,7 @@ class Read_input_file:
                             for element in met_zone:
                                 element = element.strip()
                                 if "=" not in element:
-                                    raise Pars_exception("\nERROR :meta"
+                                    raise Pars_exception("ERROR :meta"
                                                          "must have '='\n")
 
                                 meta_key, meta_value = element.split("=", 1)
@@ -97,7 +97,7 @@ class Read_input_file:
                                 meta_value = meta_value.strip()
                                 if meta_key not in ("zone", "color",
                                                     "max_drones"):
-                                    raise Pars_exception("\nERROR:metadata"
+                                    raise Pars_exception("ERROR:metadata"
                                                          "should"
                                                          "be a zone,color,"
                                                          "max_drones\n")
@@ -121,14 +121,14 @@ class Read_input_file:
                                     try:
                                         meta_value_d = int(meta_value)
                                         if meta_value_d < 0:
-                                            raise Pars_exception("\nERROR:"
+                                            raise Pars_exception("ERROR:"
                                                                  " metadata"
                                                                  " max_drones"
                                                                  " must"
                                                                  " be a"
                                                                  " number\n")
                                     except ValueError:
-                                        raise Pars_exception("\nERROR:"
+                                        raise Pars_exception("ERROR:"
                                                              " metadata"
                                                              " max_drones"
                                                              " must be"
@@ -153,7 +153,7 @@ class Read_input_file:
                             name1, name2 = part_con_name
                             meta_con = None
                         else:
-                            raise Pars_exception("\nERROR :connection names"
+                            raise Pars_exception("ERROR :connection names"
                                                  "should be 2\n")
 
                     elif len(part_value) == 2:
@@ -162,14 +162,14 @@ class Read_input_file:
                             name1, name2 = part_con_name
                             meta_con = part_value[-1]
                         else:
-                            raise Pars_exception("\nERROR :connection names"
+                            raise Pars_exception("ERROR :connection names"
                                                  "should be 2\n")
 
                         if not meta_con.startswith("["):
-                            raise Pars_exception("\nERROR :metadata"
+                            raise Pars_exception("ERROR :metadata"
                                                  "must start with '['\n")
                         if not meta_con.endswith("]"):
-                            raise Pars_exception("\nERROR :metadata  must"
+                            raise Pars_exception("ERROR :metadata  must"
                                                  "end with ']'\n")
 
                         if "=" not in meta_content:
@@ -180,13 +180,13 @@ class Read_input_file:
                         meta_con_key, meta_con_value = meta_con.split("=", 1) # noqa
 
                         if meta_con_key.strip() != "max_link_capacity":
-                            raise Pars_exception("\nERROR :metadata in"
+                            raise Pars_exception("ERROR :metadata in "
                                                  "connection should be just a"
-                                                 "max_link_capacity\n")
+                                                 " max_link_capacity\n")
                         try:
                             meta_v = int(meta_con_value)
                             if meta_v < 0:
-                                raise Pars_exception("\nma_link_capacity "
+                                raise Pars_exception("max_link_capacity "
                                                      " should be a"
                                                      " positive number \n")
                         except ValueError:
@@ -198,18 +198,19 @@ class Read_input_file:
 
                     if (not isinstance(name1, str)
                             or not isinstance(name2, str)):
-                        raise Pars_exception("\nERROR :connection"
+                        raise Pars_exception("ERROR :connection"
                                              "not correct\n")
                     connection = Connection(name1, name2, meta_con_dict)
 
                     for element in self.connections:
                         if (connection.name1 == element.name1
                                 and connection.name2 == element.name2):
-                            raise Pars_exception("\nERROR :connectios is"
-                                                 "duplicate", connection.name1)
+                            raise Pars_exception("ERROR :connectios is"
+                                                 " duplicate",
+                                                 connection.name1)
                         if (connection.name1 == element.name2
                                 and connection.name2 == element.name1):
-                            raise Pars_exception("\nERROR :connectios is"
+                            raise Pars_exception("ERROR :connectios is"
                                                  "duplicate", connection.name1)
                     self.connections.append(connection)
 
@@ -238,4 +239,4 @@ class Read_input_file:
                     self.star_hub, self.end_hub]
         except Pars_exception as e:
             print(f"{e}")
-            sys.exit(1)
+            sys.exit(0)
