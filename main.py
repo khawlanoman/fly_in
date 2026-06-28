@@ -15,6 +15,7 @@ class Main:
         """this function  to call all other
         classes and  to run the main to run
         the program """
+
         if len(sys.argv) == 2:
             config_file = sys.argv[1]
         else:
@@ -61,12 +62,12 @@ class Main:
         while not start:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    pygame.quit()
                     sys.exit(1)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         start = True
-        turn_t = simula.run(rp[1], rp[2], algo, rp[4], rp)
-        visual.run_v(turn_t, screen)
+        simula.run(rp[1], rp[2], algo, rp[4], rp)
         pygame.quit()
 
 

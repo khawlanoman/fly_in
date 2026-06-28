@@ -1,7 +1,7 @@
 from ..models.zone_class import Zone
 from ..models.connection_class import Connection
 import sys
-
+import re
 
 class Pars_exception(Exception):
     pass
@@ -42,6 +42,9 @@ class Read_input_file:
                 if key == "nb_drones":
                     try:
                         nb_value = int(value)
+                        if nb_value < 0:
+                            raise Pars_exception("\nError:nb_drones"
+                                             "should be a positive number \n")
                     except ValueError:
                         raise Pars_exception("\nError:nb_drones"
                                              "should be a integer\n")
@@ -76,8 +79,9 @@ class Read_input_file:
                                                      "must end with ']'\n")
 
                             meta_content = meta[1:-1].strip()
-                            met_zone = meta_content.strip().split(" ")
-
+                            met_zones = meta_content.strip()
+                            met_z = re.sub(r"\s*=\s*","=", met_zones).strip()
+                            met_zone = met_z.split(" ")
                             dict_meta: dict[str, str | int] = {}
                             for element in met_zone:
                                 element = element.strip()
@@ -96,15 +100,16 @@ class Read_input_file:
                                                          "max_drones\n")
 
                                 if meta_key == "zone":
-                                    if meta_value not in ("normal", "blocked",
-                                                          "restricted",
-                                                          "priority"):
+                                    if meta_value.strip() not in ("normal",
+                                                                  " blocked",
+                                                                  "restricted",
+                                                                  "priority"):
                                         raise Pars_exception("ERROR:metadata"
-                                                             "zone"
-                                                             "must be normal,"
+                                                             " zone"
+                                                             " must be normal,"
                                                              "blocked"
-                                                             "restricted,"
-                                                             "priority'\n")
+                                                             " restricted,"
+                                                             " priority'\n")
                                     dict_meta[meta_key] = meta_value
                                 if meta_key == "color":
                                     dict_meta[meta_key] = meta_value
@@ -127,9 +132,7 @@ class Read_input_file:
                                                              " a number\n")
                                     dict_meta[meta_key] = meta_value_d
 
-                                # dict_meta[meta_key] = meta_value
                             meta_dict = dict_meta
-
                     zone = Zone(name, x_z, y_z, meta_dict)
 
                     self.zones[zone.name] = zone
@@ -156,7 +159,6 @@ class Read_input_file:
                             name1, name2 = part_con_name
                             meta_con = part_value[-1]
                         else:
-                            # print("hi")
                             raise Pars_exception("\nERROR :connection names"
                                                  "should be 2\n")
 
@@ -171,14 +173,8 @@ class Read_input_file:
                             raise Pars_exception("ERROR:meta must have '='\n")
                         meta_con = meta_con[1:-1].strip()
 
-                        met_con_check = meta_con.strip().split(" ", 1)
-
-                        if len(met_con_check) != 1:
-                            raise Pars_exception("ERROR:metadata in connection"
-                                                 "should be  just a"
-                                                 "max_link_capacity\n")
                         meta_con_dict = None
-                        meta_con_key, meta_con_value = met_con_check[0].split("=", 1) # noqa
+                        meta_con_key, meta_con_value = meta_con.split("=", 1) # noqa
 
                         if meta_con_key.strip() != "max_link_capacity":
                             raise Pars_exception("\nERROR :metadata in"
@@ -186,6 +182,9 @@ class Read_input_file:
                                                  "max_link_capacity\n")
                         try:
                             meta_v = int(meta_con_value)
+                            if meta_v < 0:
+                                raise Pars_exception("\nma_link_capacity "
+                                             "should be a positive number \n")
                         except ValueError:
                             raise Pars_exception("ERROR : max_link_capacity"
                                                  " should be a integer")

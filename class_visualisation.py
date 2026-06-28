@@ -48,6 +48,10 @@ class Visualisation:
         width_screen = screen_info.current_w
         height_screen = screen_info.current_h
 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
         for key, element in self.zones.items():
             dict_zones[element.name] = (element.x, element.y)
 

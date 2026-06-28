@@ -9,8 +9,7 @@ install:
 	$(PIP) install -r requirements.txt
 
 run:
-	$(PYTHON) $(MAIN) maps/medium/02_circular_loop.txt
-
+	$(PYTHON) $(MAIN) maps/easy/02_simple_fork.txt
 debug:
 	$(PYTHON) -m pdb $(MAIN)
 
