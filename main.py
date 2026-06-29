@@ -1,7 +1,9 @@
 import parsing
-import zone_class
-import drones_data, algo_class
-import drone_class, simulation
+from zone_class import Zone
+import drones_data
+import algo_class
+import drone_class
+import simulation
 import class_visualisation
 import sys
 import pygame
