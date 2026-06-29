@@ -1,7 +1,7 @@
 import pygame
-from src.models import drones_data
+import drones_data
 from class_visualisation import Visualisation
-from src.models.algo_class import Algo_dijkstra
+from algo_class import Algo_dijkstra
 import sys
 
 
@@ -52,7 +52,7 @@ class Simulation:
             self.visual.run_v(turn, screen)
             for d in self.all_drones:
                 if d.state == "holding" and d.current_zone != self.end:
-                    zone_used[d.current_zone] = zone_used.get(d.current_zone, 0) + 1 # noqa
+                    zone_used[d.current_zone] = zone_used.get(d.current_zone, 0) + 1  # noqa
             for drone in self.all_drones:
                 if drone.current_zone == self.end:
                     continue
@@ -69,7 +69,7 @@ class Simulation:
                         return -1
                     zone_t = zone[next_zone]
                     max_drones = zone_t.metadata.get("max_drones", 1)
-                    max_link = connection_t.metadata.get("max_link_capacity", 1) # noqa
+                    max_link = connection_t.metadata.get("max_link_capacity", 1)  # noqa
                     connection_check_free = False
                     for dr in self.all_drones:
                         if dr.state == "in_flight":
@@ -83,7 +83,7 @@ class Simulation:
                     if (current_count >= max_drones
                             or connection_count >= int(max_link)):
                         try:
-                            dict_neighb = dict_neighbors.found_neighbors(t_list) # noqa
+                            dict_neighb = dict_neighbors.found_neighbors(t_list)  # noqa
                             new_path = algo.alog_start(t_list, dict_neighb,
                                                        zone, end, zone_used,
                                                        drone.current_zone,
@@ -97,13 +97,13 @@ class Simulation:
                             drone.state = "holding"
                             drone.next_zone = None
                             next_zone = drone.path[drone.path_index]
-                            connection_key = tuple(sorted([drone.current_zone, next_zone])) # noqa
+                            connection_key = tuple(sorted([drone.current_zone, next_zone]))  # noqa
                             current_count = zone_used.get(next_zone, 0) + 1
-                            connection_count = connections_used.get(connection_key, 0) # noqa
+                            connection_count = connections_used.get(connection_key, 0)  # noqa
                             connection_t = connection_dict[connection_key]
                             zone_t = zone[next_zone]
                             max_drones = zone_t.metadata.get("max_drones", 1)
-                            max_link = connection_t.metadata.get("max_link_capacity", 1) # noqa
+                            max_link = connection_t.metadata.get("max_link_capacity", 1)  # noqa
                             if (current_count >= max_drones
                                     or connection_count >= int(max_link)):
                                 continue
@@ -112,16 +112,16 @@ class Simulation:
                     if zone_t.metadata.get("zone") == "restricted":
                         if connection_count >= int(max_link):
                             continue
-                        zone_used[drone.current_zone]  = zone_used.get(drone.current_zone, 1) - 1 # noqa
+                        zone_used[drone.current_zone] = zone_used.get(drone.current_zone, 1) - 1  # noqa
                         connections_used[connection_key] = connection_count + 1
                         drone.state = "in_flight"
                         drone.flight_turns_re = 2
                         drone.next_zone = next_zone
                         drone.check_rest = 1
-                        value_turns.append(f"D{drone.id}-connection({next_zone})") # noqa
+                        value_turns.append(f"D{drone.id}-connection({next_zone})")  # noqa
                         continue
                     else:
-                        zone_used[drone.current_zone] = zone_used.get(drone.current_zone, 1) - 1 # noqa
+                        zone_used[drone.current_zone] = zone_used.get(drone.current_zone, 1) - 1  # noqa
                         connections_used[connection_key] = connection_count + 1
                         drone.move_to_zone(next_zone)
                         drone.path_index += 1

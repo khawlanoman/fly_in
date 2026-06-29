@@ -1,7 +1,7 @@
-from src.parser import parsing
-from src.models.zone_class import Zone
-from src.models import drones_data, algo_class
-from src.models import drone_class, simulation
+import parsing
+import zone_class
+import drones_data, algo_class
+import drone_class, simulation
 import class_visualisation
 import sys
 import pygame

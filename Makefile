@@ -16,13 +16,10 @@ debug:
 
 clean:
 	rm -rf __pycache__
-	rm -rf src/models/__pycache__
-	rm -rf src/__pycache__
-	rm -rf src/parser/__pycache__
 	rm -rf .mypy_cache
 
 lint:
-	-$(PYTHON) -m mypy main.py src/parser src/models \
+	-$(PYTHON) -m mypy main.py \
 		--warn-return-any \
 		--warn-unused-ignores \
 		--ignore-missing-imports \

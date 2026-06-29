@@ -67,22 +67,17 @@ turn 4: D3-goal
 
 <pre style="font-family: 'Courier New', monospace; background: #7c817875; padding: 20px; border-radius: 5px;">
 fly_in/
-├── images
+├── images/
 |   ├──drone.png
 |   └── enter_image.png
-├── maps
-├── src
-|   ├── models
-|   |   ├── __init__.py
-|   |   ├── algo_class.py
-|   |   ├── connection_class.py
-|   |   ├── drone_class.py
-|   |   ├── drones_class.py
-|   |   ├── simulation.py
-|   |   └── zone_class.py
-|   ├── parser
-|       ├── __init__.py
-|       └── parsing.py
+├── maps/
+├── algo_class.py
+├── connection_class.py
+├── drone_class.py
+├── drones_class.py
+├── simulation.py
+├──  zone_class.py
+├── parsing.py
 ├── class_visualisation.py
 ├── main.py
 ├── Makefile

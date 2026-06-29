@@ -1,4 +1,4 @@
-from src.models.zone_class import Zone
+from zone_class import Zone
 
 
 class Algo_dijkstra:
@@ -63,7 +63,7 @@ class Algo_dijkstra:
                             distance_al[k] = calculate_dist
                             prev_al[element] = small_zone_dist
                         elif calculate_dist == distance_al[k]:
-                            if zones[small_zone_dist].metadata["zone"] == "priority": # noqa
+                            if zones[small_zone_dist].metadata["zone"] == "priority":  # noqa
                                 prev_al[element] = small_zone_dist
 
         if prev_al[end_hub] is None and end_hub != start_hub:

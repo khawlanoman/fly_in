@@ -1,5 +1,5 @@
-from ..models.zone_class import Zone
-from ..models.connection_class import Connection
+from zone_class import Zone
+from connection_class import Connection
 import sys
 import re
 import pygame
@@ -41,15 +41,16 @@ class Read_input_file:
                     key, value = line.split(":", 1)
                 else:
                     raise Pars_exception("Error: line not correct")
-                if key.strip() not in ["nb_drones","start_hub", "hub", "end_hub","connection"]: # noqa
+                if key.strip() not in ["nb_drones", "start_hub", "hub", "end_hub", "connection"]:  # noqa
                     raise Pars_exception("key not found")
                 if key.strip() == "nb_drones":
                     try:
                         nb_value = int(value)
-                        if nb_value < 0:
+                        if nb_value < 1:
                             raise Pars_exception("ERROR:nb_drones"
                                                  " should be a"
-                                                 " positive number \n")
+                                                 " positive number"
+                                                 " and >= 1 \n")
                     except ValueError:
                         raise Pars_exception("ERROR:nb_drones"
                                              "should be a integer\n")
@@ -106,13 +107,13 @@ class Read_input_file:
 
                                 if meta_key == "zone":
                                     if meta_value.strip() not in ("normal",
-                                                                  " blocked",
+                                                                  "blocked",
                                                                   "restricted",
                                                                   "priority"):
                                         raise Pars_exception("ERROR:metadata"
                                                              " zone"
                                                              " must be normal,"
-                                                             "blocked"
+                                                             "blocked,"
                                                              " restricted,"
                                                              " priority'\n")
                                     dict_meta[meta_key] = meta_value
@@ -189,7 +190,7 @@ class Read_input_file:
                         meta_con = meta_con[1:-1].strip()
 
                         meta_con_dict = None
-                        meta_con_key, meta_con_value = meta_con.split("=", 1) # noqa
+                        meta_con_key, meta_con_value = meta_con.split("=", 1)  # noqa
 
                         if meta_con_key.strip() != "max_link_capacity":
                             raise Pars_exception("ERROR :metadata in "
@@ -241,7 +242,7 @@ class Read_input_file:
                 raise Pars_exception("ERROR: messing start_hub ")
             if self.end_hub is None:
                 raise Pars_exception("ERROR: messing end_hub")
-            # print("connections:",self.zones.keys())
+
             for z in self.zones.keys():
                 if z not in connection_zones:
                     raise Pars_exception("connections is not correct ")

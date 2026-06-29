@@ -43,14 +43,10 @@ class Visualisation:
     def run_v(self, turn: int, screen: pygame.Surface) -> None:
 
         dict_zones = {}
-        # pygame.init()
+
         screen_info = pygame.display.Info()
         width_screen = screen_info.current_w
         height_screen = screen_info.current_h
-
-        # for event in pygame.event.get():
-        #     if event.type == pygame.QUIT:
-        #         pygame.quit()
 
         for key, element in self.zones.items():
             dict_zones[element.name] = (element.x, element.y)
@@ -103,7 +99,7 @@ class Visualisation:
                              (con_v1_screan_x, con_v1_screan_y),
                              (con_v2_screan_x, con_v2_screan_y),
                              width=2)
-            my_capatity_data = my_text_capacity.render(f"l={value.metadata.get('max_link_capacity')}", True, (255,255,255)) # noqa
+            my_capatity_data = my_text_capacity.render(f"l={value.metadata.get('max_link_capacity')}", True, (255, 255, 255))  # noqa
             my_capacity_x = (con_v1_screan_x + con_v2_screan_x) / 2
             my_capacity_y = (con_v1_screan_y + con_v2_screan_y) / 2
             for key, element in self.zones.items():
@@ -136,7 +132,7 @@ class Visualisation:
                         (screen_x - (my_text_zone_x // 2),
                          screen_y - (my_text_zone_y // 2)))
             if key == "start" or key == "goal":
-                my_capacity_zone = my_text_capacity.render(f"d = {len(self.drones)}", True, (255,255,255)) # noqa
+                my_capacity_zone = my_text_capacity.render(f"d = {len(self.drones)}", True, (255, 255, 255))  # noqa
                 my_capacity_zone_x = my_capacity_zone.get_width()
                 my_capacity_zone_y = my_capacity_zone.get_height()
                 screen.blit(my_capacity_zone,
@@ -144,7 +140,7 @@ class Visualisation:
                              (screen_y - (my_capacity_zone_y // 2))
                              - 100))
             else:
-                my_capacity_zone = my_text_capacity.render(f"d = {element.metadata.get('max_drones')}", True, (255,255,255)) # noqa
+                my_capacity_zone = my_text_capacity.render(f"d = {element.metadata.get('max_drones')}", True, (255, 255, 255))  # noqa
                 my_capacity_zone_x = my_capacity_zone.get_width()
                 my_capacity_zone_y = my_capacity_zone.get_height()
                 screen.blit(my_capacity_zone,
