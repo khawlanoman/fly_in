@@ -10,6 +10,7 @@ class Algo_dijkstra:
                    all_drones: list[Zone]) -> list:
         """this function is for algo dijikstra """
         zones = t_list[1]
+        start_hub = t_list[3]
         distance_al: dict[str, float] = {}
         unvisited_al = []
         prev_al: dict[str, str | None] = {}
@@ -64,6 +65,9 @@ class Algo_dijkstra:
                         elif calculate_dist == distance_al[k]:
                             if zones[small_zone_dist].metadata["zone"] == "priority": # noqa
                                 prev_al[element] = small_zone_dist
+
+        if prev_al[end_hub] is None and end_hub != start_hub:
+            return []
 
         current = end_hub
 

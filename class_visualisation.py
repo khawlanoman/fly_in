@@ -43,14 +43,14 @@ class Visualisation:
     def run_v(self, turn: int, screen: pygame.Surface) -> None:
 
         dict_zones = {}
-        pygame.init()
+        # pygame.init()
         screen_info = pygame.display.Info()
         width_screen = screen_info.current_w
         height_screen = screen_info.current_h
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
+        # for event in pygame.event.get():
+        #     if event.type == pygame.QUIT:
+        #         pygame.quit()
 
         for key, element in self.zones.items():
             dict_zones[element.name] = (element.x, element.y)
@@ -125,6 +125,7 @@ class Visualisation:
                         * scale_x + self.margin)
             screen_y = ((element.y - self.min_y)
                         * scale_y + self.margin)
+
             pygame.draw.circle(screen, pygame.Color(color),
                                (screen_x, screen_y), 70)
             text_zone = my_text_zone.render(f"{element.name}",

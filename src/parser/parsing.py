@@ -2,6 +2,7 @@ from ..models.zone_class import Zone
 from ..models.connection_class import Connection
 import sys
 import re
+import pygame
 
 
 class Pars_exception(Exception):
@@ -34,10 +35,8 @@ class Read_input_file:
                     continue
                 elif (line.startswith("#")):
                     continue
-                ###
                 value: str
-                
-                ###
+
                 if (len(line.split(":", 1)) == 2):
                     key, value = line.split(":", 1)
                 else:
@@ -119,6 +118,11 @@ class Read_input_file:
                                     dict_meta[meta_key] = meta_value
                                 if meta_key == "color":
                                     dict_meta[meta_key] = meta_value
+                                    try:
+                                        pygame.Color(meta_value)
+                                    except ValueError:
+                                        raise Pars_exception("ERROR:color"
+                                                             " not found")
 
                                 if meta_key == "max_drones":
                                     try:
@@ -128,7 +132,8 @@ class Read_input_file:
                                                                  " metadata"
                                                                  " max_drones"
                                                                  " must be"
-                                                                 " positive number"
+                                                                 " positive"
+                                                                 " number"
                                                                  " and >= 1\n")
                                     except ValueError:
                                         raise Pars_exception("ERROR:"
@@ -179,8 +184,6 @@ class Read_input_file:
                             raise Pars_exception("ERROR :metadata  must"
                                                  "end with ']'\n")
 
-                       
-
                         if "=" not in meta_content:
                             raise Pars_exception("ERROR:meta must have '='\n")
                         meta_con = meta_con[1:-1].strip()
@@ -197,10 +200,12 @@ class Read_input_file:
                             if meta_v < 1:
                                 raise Pars_exception("max_link_capacity "
                                                      " should be a"
-                                                     " positive number and >= 1 \n")
+                                                     " positive number"
+                                                     " and >= 1 \n")
                         except ValueError:
                             raise Pars_exception("ERROR : max_link_capacity"
-                                                 " should be a integer and >= 1")
+                                                 " should be a integer"
+                                                 " and >= 1")
                         if meta_con is not None:
                             meta_con_dict = {meta_con_key.strip():
                                              meta_v}
@@ -212,9 +217,7 @@ class Read_input_file:
                     connection_zones.add(name1)
                     connection_zones.add(name2)
                     connection = Connection(name1, name2, meta_con_dict)
-                    
-                    
-                    
+
                     for element in self.connections:
                         if (connection.name1 == element.name1
                                 and connection.name2 == element.name2):
@@ -226,20 +229,21 @@ class Read_input_file:
                             raise Pars_exception("ERROR :connectios is"
                                                  "duplicate", connection.name1)
                     self.connections.append(connection)
-                if  key != "connection" and key != "hub" and key in keys:
+                if key != "connection" and key != "hub" and key in keys:
                     raise Pars_exception(f"key duplicate{key}")
                 keys.append(key)
 
             if self.nb_drones == 0:
-                raise Pars_exception("ERROR: messing nb_drones ")
+                raise Pars_exception("ERROR: messing nb_drones"
+                                     " or not correct  ")
 
             if self.star_hub is None:
                 raise Pars_exception("ERROR: messing start_hub ")
             if self.end_hub is None:
                 raise Pars_exception("ERROR: messing end_hub")
             # print("connections:",self.zones.keys())
-            for z in  self.zones.keys():
-                if z not in  connection_zones:
+            for z in self.zones.keys():
+                if z not in connection_zones:
                     raise Pars_exception("connections is not correct ")
             coor_zones = {}
             for con in self.connections:

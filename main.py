@@ -35,7 +35,7 @@ class Main:
                                        "start", all_drones)
                 if not path:
                     print(f"ERROR: No path for drone {i}")
-                    break
+                    sys.exit(0)
             except ValueError:
                 print("no path found")
                 sys.exit(0)
@@ -67,8 +67,10 @@ class Main:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         start = True
-        simula.run(rp[1], rp[2], algo, rp[4], rp)
+        turns = simula.run(rp[1], rp[2], algo, rp[4], rp)
         pygame.quit()
+
+        print(f"\ntotal turns: {turns}")
 
 
 app = Main()
