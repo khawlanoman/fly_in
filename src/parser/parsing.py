@@ -26,6 +26,8 @@ class Read_input_file:
             print(f"{e}")
             sys.exit(0)
         try:
+            keys = []
+            connection_zones = set()
             for l_line in lines:
                 line = l_line.strip()
                 if not line:
@@ -34,6 +36,7 @@ class Read_input_file:
                     continue
                 ###
                 value: str
+                
                 ###
                 if (len(line.split(":", 1)) == 2):
                     key, value = line.split(":", 1)
@@ -120,23 +123,27 @@ class Read_input_file:
                                 if meta_key == "max_drones":
                                     try:
                                         meta_value_d = int(meta_value)
-                                        if meta_value_d < 0:
+                                        if meta_value_d < 1:
                                             raise Pars_exception("ERROR:"
                                                                  " metadata"
                                                                  " max_drones"
-                                                                 " must"
-                                                                 " be a"
-                                                                 " number\n")
+                                                                 " must be"
+                                                                 " positive number"
+                                                                 " and >= 1\n")
                                     except ValueError:
                                         raise Pars_exception("ERROR:"
                                                              " metadata"
                                                              " max_drones"
                                                              " must be"
-                                                             " a number\n")
+                                                             " positive number"
+                                                             " and >= 1\n")
                                     dict_meta[meta_key] = meta_value_d
 
                             meta_dict = dict_meta
                     zone = Zone(name, x_z, y_z, meta_dict)
+                    if zone.name in self.zones:
+                        raise Pars_exception("Error: duplicate",
+                                             f"zone name {zone.name}")
 
                     self.zones[zone.name] = zone
                 if key == "start_hub":
@@ -172,6 +179,8 @@ class Read_input_file:
                             raise Pars_exception("ERROR :metadata  must"
                                                  "end with ']'\n")
 
+                       
+
                         if "=" not in meta_content:
                             raise Pars_exception("ERROR:meta must have '='\n")
                         meta_con = meta_con[1:-1].strip()
@@ -185,13 +194,13 @@ class Read_input_file:
                                                  " max_link_capacity\n")
                         try:
                             meta_v = int(meta_con_value)
-                            if meta_v < 0:
+                            if meta_v < 1:
                                 raise Pars_exception("max_link_capacity "
                                                      " should be a"
-                                                     " positive number \n")
+                                                     " positive number and >= 1 \n")
                         except ValueError:
                             raise Pars_exception("ERROR : max_link_capacity"
-                                                 " should be a integer")
+                                                 " should be a integer and >= 1")
                         if meta_con is not None:
                             meta_con_dict = {meta_con_key.strip():
                                              meta_v}
@@ -200,8 +209,12 @@ class Read_input_file:
                             or not isinstance(name2, str)):
                         raise Pars_exception("ERROR :connection"
                                              "not correct\n")
+                    connection_zones.add(name1)
+                    connection_zones.add(name2)
                     connection = Connection(name1, name2, meta_con_dict)
-
+                    
+                    
+                    
                     for element in self.connections:
                         if (connection.name1 == element.name1
                                 and connection.name2 == element.name2):
@@ -213,7 +226,21 @@ class Read_input_file:
                             raise Pars_exception("ERROR :connectios is"
                                                  "duplicate", connection.name1)
                     self.connections.append(connection)
+                if  key != "connection" and key != "hub" and key in keys:
+                    raise Pars_exception(f"key duplicate{key}")
+                keys.append(key)
 
+            if self.nb_drones == 0:
+                raise Pars_exception("ERROR: messing nb_drones ")
+
+            if self.star_hub is None:
+                raise Pars_exception("ERROR: messing start_hub ")
+            if self.end_hub is None:
+                raise Pars_exception("ERROR: messing end_hub")
+            # print("connections:",self.zones.keys())
+            for z in  self.zones.keys():
+                if z not in  connection_zones:
+                    raise Pars_exception("connections is not correct ")
             coor_zones = {}
             for con in self.connections:
                 if (con.name1 in self.zones.keys()
@@ -229,11 +256,9 @@ class Read_input_file:
                     raise Pars_exception("connection is"
                                          "not inzones ", con.name2)
 
-            # coor_values = coor_zones.values()
-            # print(coor_zones)
             if len(coor_zones) != len(set(coor_zones.values())):
                 raise Pars_exception("\nShould every zone have"
-                                     "unique coordinates\n")
+                                     " unique coordinates\n")
 
             return [self.nb_drones, self.zones, self.connections,
                     self.star_hub, self.end_hub]

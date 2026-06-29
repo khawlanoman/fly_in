@@ -10,6 +10,7 @@ of the 42 curriculum by <spam style= "color:#FFC0CB">khnoman </spam></h4>
 <li><a href="#Installation">Installation</a></li>
 <li><a href="#Project_Description"> Project Description </a></li>
 <li><a href="#Rules"> Rules </a></li>
+<li><a href="#algo"> Algorithm Explanation</a> </li>
 <li><a href="#Project_Structure"> Project Structure </a></li>
 <li><a href="#Resources"> Resources </a></li>
 <li><a href="#AI_Usage"> AI Usage </a></li>
@@ -60,7 +61,8 @@ turn 4: D3-goal
     - Drones move one step per simulation turn.
     - The simulation ends when all drones have reached the destination.
 </p>
-
+<h2 style="font-size: 27px;" id="algo">Algorithm Explanation </h2>
+<p> The simulation uses Dijkstra's algorithm to find the shortest path between zones for each drone. The algorithm calculates the minimum travel cost by exploring the graph and selecting the next zone with the smallest known distance. If multiple paths have the same cost, priority zones are preferred according to the project rules. This ensures that each drone follows an efficient route while respecting the network constraints.</p>
 <h2 style="font-size: 27px;" id="Project_Structure">📁 Project Structure </h2>
 
 <pre style="font-family: 'Courier New', monospace; background: #7c817875; padding: 20px; border-radius: 5px;">

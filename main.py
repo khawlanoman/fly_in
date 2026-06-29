@@ -15,13 +15,13 @@ class Main:
         """this function  to call all other
         classes and  to run the main to run
         the program """
-
-        if len(sys.argv) == 2:
-            config_file = sys.argv[1]
-        else:
-            print("python3 main.py [config_file]")
+        if len(sys.argv) != 2:
+            print(" Error : need config file python3 main.py [config_file]")
+            sys.exit(0)
+        config_file = sys.argv[1]
         file_parse = parsing.Read_input_file()
         rp = file_parse.read_file(config_file)
+
         dict_neighbors = drones_data.Dict_neighbors()
         algo = algo_class.Algo_dijkstra()
         all_dornes = []
